@@ -46,7 +46,13 @@
        o_store = st_storekey
  GROUP BY o_store;
 
--- 15)
+-- 15) Which store did the most deliveries
+	SELECT st_name
+FROM store, Orders,
+    (SELECT max(DISTINCT o_orderkey) as ct, o_store as key
+     FROM Orders 
+     WHERE o_dec = 1) as info
+WHERE st_storekey = o_store AND st_storekey = info.key
 
 -- 16)
 
