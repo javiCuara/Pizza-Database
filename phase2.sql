@@ -66,6 +66,10 @@ WHERE c_name Like 'D%' AND
 
 -- 18) Find entre that contains ingredient
     SELECT e_name FROM entree WHERE e_ingredients Like '%Pineapple%'
--- 19)
+    
+-- 19) List each customer that has ordered a Pepsi with wings
+	SELECT DISTINCT c_name
+	FROM Customer, Orders, drink, sides
+	WHERE c_key = o_custkey AND o_drink = d_key AND o_side = s_key AND d_brand = "Pepsi" AND s_name LIKE "%Wings%";
 
 -- 20)
