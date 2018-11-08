@@ -73,3 +73,7 @@ WHERE c_name Like 'D%' AND
 	WHERE c_key = o_custkey AND o_drink = d_key AND o_side = s_key AND d_brand = "Pepsi" AND s_name LIKE "%Wings%";
 
 -- 20)
+    UPDATE drink
+    SET d_stock = 0
+    WHERE d_type = 'beer' AND 
+        d_storekey = 4;
