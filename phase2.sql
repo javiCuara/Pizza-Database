@@ -54,8 +54,12 @@ FROM store, Orders,
      WHERE o_dec = 1) as info
 WHERE st_storekey = o_store AND st_storekey = info.key
 
--- 16)
-
+-- 16) List Sides ordered by customers whos names start with 
+    SELECT DISTINCT s_name
+FROM Orders, Customer, sides
+WHERE c_name Like 'D%' AND
+      c_key = o_custkey AND 
+      o_side = s_key
 -- 17)
 
 -- 18)
