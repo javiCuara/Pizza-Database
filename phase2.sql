@@ -17,7 +17,7 @@
     SELECT q.name, COUNT(d_stock), COUNT(s_stock), COUNT(t_stock) FROM drink, sides, toppings, (SELECT st_storekey AS id, st_name AS name FROM store, drink WHERE d_type = "tea" AND d_storekey = st_storekey) as q WHERE d_storekey = q.id AND s_storekey = q.id AND t_storekey = q.id GROUP BY q.id;
 
 -- 7) Find the customer(s) who ordered from pizza hut and asked for a pizza with thin crust
-    SELECT c_name FROM Customer, Orders, store, entree WHERE c_key = o_custkey AND o_orderkey = st_orderkey AND st_name = "Pizza Hut" AND o_entree = e_key AND e_ingredients LIKE "Thin Cust";
+    SELECT c_name FROM Customer, Orders, store, entree WHERE c_key = o_custkey AND o_orderkey = st_orderkey AND st_name = "Pizza Hut" AND o_entree = e_key AND e_ingredients LIKE "%Thin Cust%";
 
 -- 8) List the stores that carry more than 2 types of drinks
     SELECT st_name FROM (SELECT COUNT(DISTINCT d_type) AS numdrinks FROM drink, store WHERE st_storekey = d_storekey) AS q, store GROUP BY st_name HAVING q.numdrinks > 2;
@@ -34,9 +34,17 @@
 -- 12) Find the topping with the least stock for each store
     SELECT st_name, t_name FROM toppings, store WHERE t_storekey = st_storekey GROUP BY st_name HAVING MIN(t_stock);
 
--- 13) 
+-- 13) List all stores that sell beer and wings
+    SELECT st_name FROM store, drink, sides WHERE st_storekey = d_storekey AND s_storekey = st_storekey AND d_type = 'beer' AND s_name LIKE '%Wings%' GROUP BY st_name;
 
--- 14)
+-- 14) List stores that sell more than 2 drinks, with top pizza
+    SELECT st_name, e_name, count(DISTINCT o_orderkey) FROM drink, Orders, entree, store,(SELECT count(d_type) AS ct, d_storekey AS [key] FROM drink GROUP BY d_storekey) AS info
+ WHERE d_storekey = o_store AND 
+       e_storekey = o_store AND 
+       d_storekey = info.[key] AND 
+       info.ct > 2 AND 
+       o_store = st_storekey
+ GROUP BY o_store;
 
 -- 15)
 
