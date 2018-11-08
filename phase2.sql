@@ -20,3 +20,30 @@
 
 -- 8) List the stores that carry more than 2 types of drinks
     SELECT st_name FROM (SELECT COUNT(DISTINCT d_type) AS numdrinks FROM drink, store WHERE st_storeID = d_storekey) AS q, store GROUP BY st_name HAVING q.numdrinks > 2;
+
+-- 9) Delete any orders by Suki Sheppard
+    DELETE FROM Customer WHERE c_name = "Suki Sheppard";
+
+-- 10) Insert a new drink "Cactus Cooler" into the drink table, where Pizza palace (key# 4) is the only place to sell it
+    INSERT INTO drink VALUES ("soda", 10, 20, "Cactus Cooler", 4);
+
+-- 11) Pizza Villa has started to sell Cactus Cooler and Pizza Palace has dropped it. Update the table to reflect this change
+    UPDATE drink SET d_storekey = 7 WHERE d_brand = "Cactus Cooler";
+
+-- 12) 
+
+-- 13)
+
+-- 14)
+
+-- 15)
+
+-- 16)
+
+-- 17)
+
+-- 18)
+
+-- 19)
+
+-- 20)
