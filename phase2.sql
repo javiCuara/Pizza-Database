@@ -60,7 +60,9 @@ FROM Orders, Customer, sides
 WHERE c_name Like 'D%' AND
       c_key = o_custkey AND 
       o_side = s_key
--- 17)
+      
+-- 17) What stores sell Hawaiian pizza and list the ingredients
+	SELECT st_name, e_ingredients FROM store, entree WHERE st_storekey = e_storekey AND e_name = "Hawaiian" GROUP BY st_name;
 
 -- 18)
 
