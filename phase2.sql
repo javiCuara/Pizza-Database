@@ -64,8 +64,8 @@ WHERE c_name Like 'D%' AND
 -- 17) What stores sell Hawaiian pizza and list the ingredients
 	SELECT st_name, e_ingredients FROM store, entree WHERE st_storekey = e_storekey AND e_name = "Hawaiian" GROUP BY st_name;
 
--- 18)
-
+-- 18) Find entre that contains ingredient
+    SELECT e_name FROM entree WHERE e_ingredients Like '%Pineapple%'
 -- 19)
 
 -- 20)
