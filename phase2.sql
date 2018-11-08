@@ -24,10 +24,11 @@
 -- 9) Delete any orders by Suki Sheppard
     DELETE FROM Customer WHERE c_name = "Suki Sheppard";
 
--- 10) Insert a new drink "Cactus Cooler" into the drink table
-    INSERT INTO drink VALUES ("soda", 9, 20, "Cactus Cooler");
+-- 10) Insert a new drink "Cactus Cooler" into the drink table, where Pizza palace (key# 4) is the only place to sell it
+    INSERT INTO drink VALUES ("soda", 10, 20, "Cactus Cooler", 4);
 
--- 11) Pizza Villa has started to sell Cactus Cooler. Update the table to reflect this change
+-- 11) Pizza Villa has started to sell Cactus Cooler and Pizza Palace has dropped it. Update the table to reflect this change
+    UPDATE drink SET d_storekey = 7 WHERE d_brand = "Cactus Cooler";
 
 -- 12) 
 
