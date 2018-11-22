@@ -26,4 +26,14 @@ connection = False
 
 while True:
     print(Menu)
+    tmp = raw_input("Enter value: ")
+    try:
+        tmp = int(tmp)
+    except ValueError:
+        print("ENTER A NUMBER, PLEASE\n")
+        print("\n")
+        continue
+    if  int(tmp) == 0 :
+        con = EstablishConnection()
+
     break;
