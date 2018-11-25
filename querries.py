@@ -1,7 +1,9 @@
 # Menu list 
 Menu = ''' Select one of the following
-    1:
-    2:
+   -1: Close connection and Application
+    0: Establish Connection <Important>
+    1: Count how many stores that sell Wings Deliver as well 
+    2: For each store that carries beer, count how many delivery orders have been made
     3:
     4:
     5:
@@ -78,3 +80,41 @@ SELECT e_name,
        st_name = "Dominos"
  GROUP BY c_name;
 '''
+#6-- 6) Take the inventory of each side, entree ingredient, and drink for each store that offers tea
+Inv_forStores_OfferTea = '''
+    SELECT q.name, COUNT(d_stock), COUNT(s_stock), COUNT(t_stock)
+     FROM drink, sides, toppings,
+      (
+            SELECT st_storekey AS id, st_name AS name 
+            FROM store, drink 
+            WHERE d_type = "tea" AND d_storekey = st_storekey
+      ) as q
+       WHERE d_storekey = q.id AND
+             s_storekey = q.id AND
+             t_storekey = q.id
+      GROUP BY q.id;
+'''
+#7-- 7) Find the customer(s) who ordered from pizza hut and asked for a pizza with thin crust
+List_Customers_OrderedThin = '''
+    SELECT c_name 
+    FROM Customer,
+         Orders,
+         store,
+         entree 
+    WHERE c_key = o_custkey AND
+          o_orderkey = st_orderkey AND
+          st_name = "Pizza Hut" AND
+          o_entree = e_key AND
+          e_ingredients LIKE "%Thin Cust%";
+ '''
+#8
+
+#9
+
+#10
+
+
+#11
+
+
+#12

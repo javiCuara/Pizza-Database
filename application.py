@@ -1,19 +1,13 @@
-# Main Script for terminal based application 
-# CSE 111- Proj "Pizza Time""
 import sqlite3
 import sys
 import re
 import random
 import os
-# all querries will be on a seperate file /querries.py
-# so we need to import the variables aka querries
 from querries import*
 
 def EstablishConnection():
-    dB = "PizzaTime.db"
+    dB = "/PizzaTime.db"
     try :
-        # Sine path might not be the same we need to get current dir path
-        # and add the databse name since they should be in the same folder
         path = os.getcwd() + dB 
         conn = sqlite3.connect(path)
         print("Connection Established");
@@ -22,8 +16,73 @@ def EstablishConnection():
     return conn
 #END OF ESTABLISH_CONNECTION 
 
-connection = False
+def CountWingsAndDelivery(con):
+    cursor =  con.cursor();
+    try:
+        cur = con.cursor();
+        data = con.execute(Count_Wings_AND_Deliver,)
+        x = data.fetchone();
+        for r in x:
+            amt = r
+            print"Number of stores: " ,amt;
+    except sqlite3.Error, e:
+        print'Error: ', e.args[0]
+#END OF COUNT_WINGS_AND_DELIVERY
 
+def CountStores_W_BeerAndWings(con):
+    cursor =  con.cursor();
+    try:
+        cur = con.cursor();
+        data = con.execute(Count_Store_WithBeer,)
+        x = data.fetchone();
+        for r in x:
+            amt = r
+            print"Number of stores: " ,amt;
+    except sqlite3.Error, e:
+        print'Error: ', e.args[0]
+#END OF COUNT_STORES_WITH_WINGS_AND_BEER
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+connection = False
 while True:
     print(Menu)
     tmp = raw_input("Enter value: ")
@@ -35,5 +94,12 @@ while True:
         continue
     if  int(tmp) == 0 :
         con = EstablishConnection()
-
-    break;
+        connection = True
+    elif int(tmp) == -1:
+        if connection:
+            con.close();
+        sys.exit(1);
+    elif int(tmp) == 1 :
+        CountWingsAndDelivery(con);
+    elif int(tmp) == 2 :
+        CountStores_W_BeerAndWings(con);
