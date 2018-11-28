@@ -1,18 +1,34 @@
 # Menu list 
-Menu = ''' Select one of the following
-   -1: Close connection and Application
-    0: Establish Connection <Important>
+Inital_Menu = '''
+1: Continue as Guest
+2: Continue as Store Manager
+3: Exit
+ '''
+Guest_Menu = ''' Select one of the following
+    0: Return to main menu
     1: Count how many stores that sell Wings Deliver as well 
     2: For each store that carries beer, count how many delivery orders have been made
-    3:
-    4:
-    5:
-    6:
-    7:
-    8:
-    9:
-    10:
     '''
+Manager_menu = '''
+0: Return to main menu
+1:
+2:
+3:
+'''
+Retrive_Psw = '''
+SELECT Password
+  FROM Managers
+  WHERE Username = ?;
+'''
+Retrive_skey = '''
+SELECT M_store
+  FROM Managers
+  WHERE Username = ?;
+'''
+Retrive_Store = '''
+SELECT st_name
+  FROM store
+  Where st_storekey = ?;'''
 
 # -- 1) Count how many stores that sell Wings Deliver as well 
 Count_Wings_AND_Deliver ='''
