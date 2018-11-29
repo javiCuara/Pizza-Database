@@ -9,12 +9,12 @@ GuestMenu = ''' Select one of the following
     1: Count how many stores that sell Wings Deliver as well 
     2: For each store that carries beer, count how many delivery orders have been made
     '''
-ManagerMenu = '''
-0: Return to main menu
-1:
-2:
-3:
-'''
+# ManagerMenu = '''
+# 0: Return to main menu
+# 1:
+# 2:
+# 3:
+# '''
 RetrievePsw = '''
 SELECT Password
   FROM Managers
@@ -29,6 +29,19 @@ RetrieveStore = '''
 SELECT st_name
   FROM store
   Where st_storekey = ?;'''
+
+# Retrive topping inventory for store ?
+ToppingStock = '''SELECT t_name,
+       t_stock
+  FROM toppings
+  WHERE t_storekey = ?
+  GROUP BY t_name;'''
+
+SideStock = '''SELECT s_name,
+       s_stock
+  FROM sides
+Where s_storekey = ?
+GROUP BY s_name;''' 
 
 # -- 1) Count how many stores that sell Wings Deliver as well 
 Count_Wings_AND_Deliver ='''

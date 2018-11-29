@@ -5,6 +5,8 @@ import random
 import os
 import getpass
 from menus import*
+from querries import*
+
 
 def EstablishConnection():
     dB = "/PizzaTime.db"
@@ -19,7 +21,7 @@ def EstablishConnection():
 
 def CheckManager(con):
      # ask for credentials
-    connect = False
+    s_key = -9
     cur =  con.cursor();
     tmpWord = "something"
     while True: 
@@ -43,12 +45,13 @@ def CheckManager(con):
             try:
                 # get store key
                 cur =  con.cursor();
-                data = con.execute(RetrieveStore,(Username,))
+                data = con.execute(RetrieveManagerStore,(Username,))
                 x = data.fetchone();
                 for r in x :
                     key = r
+                s_key = key
                 # get store name
-                data = con.execute(RetriveStore,(key,))
+                data = con.execute(RetrieveStore,(key,))
                 x = data.fetchone();
                 for r in x :
                     name = r
@@ -74,10 +77,10 @@ def CheckManager(con):
             else :
                 break
     # when loop ends then return boolean 
-    return connect
+    return s_key
 
 
-def ManagerPortal(con):
+def ManagerPortal(con,key):
     while True:
         print(ManagerMenu)
         tmp = raw_input("Enter value: ")
@@ -89,12 +92,51 @@ def ManagerPortal(con):
             continue
         if  int(tmp) == 0 :
             break
+        elif int(tmp) == 1:
+            getTotalInventory(con,key )
 
 def CustomerPortal(con):
     choice = StoreSelectMenu(con)
     print(choice)
-
     return
+
+
+def getTotalInventory(con,key):
+    Top = getTopings(con,key)
+    Sides = getSides(con,key)
+    print("              Toppings                ")
+    print("---------------------------------------")
+    for i in Top:
+        print '|',i[0],' \t|',i[1]
+    print("---------------------------------------")
+
+    print("               Sides                    ")
+    print("---------------------------------------")
+    for i in Sides:
+        print '|',i[0],'|',i[1]
+    print("---------------------------------------")
+def getTopings(con,key):
+    #print("Topings")
+    cur = con.cursor()
+    T_List = []
+    #print key
+    result = cur.execute(ToppingStock, (key,))
+    data = result.fetchall()
+    for r in data:
+       T_List.append((r[0],r[1]))
+    #print data
+    return T_List
+
+def getSides(con, key):
+    cur = con.cursor()
+    T_List = []
+    #print key
+    result = cur.execute(SideStock, (key,))
+    data = result.fetchall()
+    for r in data:
+       T_List.append((r[0],r[1]))
+    #print data
+    return T_List
 
 def StoreSelectMenu(con):
     cur = con.cursor()
@@ -135,8 +177,9 @@ while True:
         continue
 
     if int(tmp) == 2 :
-        if (CheckManager(con)):
-            ManagerPortal(con)
+        ky = CheckManager(con)
+        if (ky != -9):
+            ManagerPortal(con,ky)
     elif int(tmp) == 3:
         con.close();
         sys.exit(1);
