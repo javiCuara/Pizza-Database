@@ -36,6 +36,3 @@ SELECT st_name
   Where st_storekey = ?;'''
 
 
-RetrieveAllStores = '''SELECT st_name FROM store GROUP BY st_name;'''
-
-
