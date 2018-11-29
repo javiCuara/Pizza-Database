@@ -13,7 +13,7 @@ GuestMenu = ''' Select one of the following
 
 ManagerMenu = '''
 0: Return to main menu
-1:
+1: View Total inventory
 2:
 3:
 '''
