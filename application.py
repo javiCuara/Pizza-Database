@@ -104,6 +104,10 @@ def CustomerPortal(con):
 def getTotalInventory(con,key):
     Top = getTopings(con,key)
     Sides = getSides(con,key)
+    sauce = getSauce(con,key)
+    entree = getEntree(con,key)
+    drink = getDink(con,key)
+
     print("              Toppings                ")
     print("---------------------------------------")
     for i in Top:
@@ -113,6 +117,21 @@ def getTotalInventory(con,key):
     print("               Sides                    ")
     print("---------------------------------------")
     for i in Sides:
+        print '|',i[0],'|',i[1]
+    print("---------------------------------------")
+    print("               Sauces                    ")
+    print("---------------------------------------")
+    for i in sauce:
+        print '|',i[0],'|',i[1]
+    print("---------------------------------------")
+    print("               Entrees                   ")
+    print("---------------------------------------")
+    for i in entree:
+        print '|',i[0],'|',i[1]
+    print("---------------------------------------")
+    print("               Drinks                    ")
+    print("---------------------------------------")
+    for i in drink:
         print '|',i[0],'|',i[1]
     print("---------------------------------------")
 def getTopings(con,key):
@@ -132,6 +151,39 @@ def getSides(con, key):
     T_List = []
     #print key
     result = cur.execute(SideStock, (key,))
+    data = result.fetchall()
+    for r in data:
+       T_List.append((r[0],r[1]))
+    #print data
+    return T_List
+
+def getSauce(con,key):
+    cur = con.cursor()
+    T_List = []
+    #print key
+    result = cur.execute(sauceStock, (key,))
+    data = result.fetchall()
+    for r in data:
+       T_List.append((r[0],r[1]))
+    #print data
+    return T_List
+
+def getEntree(con,key):
+    cur = con.cursor()
+    T_List = []
+    #print key
+    result = cur.execute(entreStock, (key,))
+    data = result.fetchall()
+    for r in data:
+       T_List.append((r[0],r[1]))
+    #print data
+    return T_List
+
+def getDink(con,key):
+    cur = con.cursor()
+    T_List = []
+    #print key
+    result = cur.execute(drinkStock, (key,))
     data = result.fetchall()
     for r in data:
        T_List.append((r[0],r[1]))

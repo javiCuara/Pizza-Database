@@ -42,7 +42,23 @@ SideStock = '''SELECT s_name,
   FROM sides
 Where s_storekey = ?
 GROUP BY s_name;''' 
-
+sauceStock = '''SELECT sc_name,
+       sc_stock
+  FROM sauce
+  WHERE sc_offeredBy = ?
+  GROUP BY sc_name;'''
+entreStock = '''
+SELECT e_name,
+       e_stock
+  FROM entree
+  WHERE e_storekey = ?
+  GROUP BY e_name; '''
+drinkStock = ''' 
+SELECT d_type,
+       d_stock
+  FROM drink
+  WHERE  d_storekey = ?
+  GROUP BY d_type;'''
 # -- 1) Count how many stores that sell Wings Deliver as well 
 Count_Wings_AND_Deliver ='''
  SELECT COUNT(DISTINCT st_name) 
