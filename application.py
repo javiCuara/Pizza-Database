@@ -4,7 +4,7 @@ import re
 import random
 import os
 import getpass
-from querries import*
+from menus import*
 
 def EstablishConnection():
     dB = "/PizzaTime.db"
@@ -77,9 +77,9 @@ def CheckManager(con):
     return connect
 
 
-def Manager_stuff(con):
+def ManagerPortal(con):
     while True:
-        print(Manager_menu)
+        print(ManagerMenu)
         tmp = raw_input("Enter value: ")
         try:
             tmp = int(tmp)
@@ -90,9 +90,9 @@ def Manager_stuff(con):
         if  int(tmp) == 0 :
             break
 
-def Guest_stuff(con):
+def CustomerPortal(con):
     while True:
-        print(Guest_Menu)
+        print(GuestMenu)
         tmp = raw_input("Enter value: ")
         try:
             tmp = int(tmp)
@@ -150,10 +150,10 @@ while True:
 
     if int(tmp) == 2 :
         if (CheckManager(con)):
-            Manager_stuff(con)
+            ManagerPortal(con)
     elif int(tmp) == 3:
         con.close();
         sys.exit(1);
     elif int(tmp) == 1:
-        Guest_stuff(con)
+        CustomerPortal(con)
 
