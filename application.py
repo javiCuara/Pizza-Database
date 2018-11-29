@@ -17,7 +17,7 @@ def EstablishConnection():
     return conn
 #END OF ESTABLISH_CONNECTION
 
-def CheckMannager(con):
+def CheckManager(con):
      # ask for credentials
     connect = False
     cur =  con.cursor();
@@ -53,7 +53,7 @@ def CheckMannager(con):
                 for r in x :
                     name = r
                 # print store name
-                print 'Welcome Mannager:', name
+                print 'Welcome Manager:', name
                 connect = True # condition is met
                 break
             except sqlite3.Error, e:
@@ -77,7 +77,7 @@ def CheckMannager(con):
     return connect
 
 
-def Mannager_stuff(con):
+def Manager_stuff(con):
     while True:
         print(Manager_menu)
         tmp = raw_input("Enter value: ")
@@ -147,8 +147,8 @@ while True:
         print("ENTER A NUMBER, PLEASE\n")
         continue
     if int(tmp) == 2 :
-        if (CheckMannager(con)):
-            Mannager_stuff(con)
+        if (CheckManager(con)):
+            Manager_stuff(con)
     elif int(tmp) == 3:
         con.close();
         sys.exit(1);
