@@ -1,31 +1,31 @@
 # Menu list 
-Inital_Menu = '''
+MainMenu = '''
 1: Continue as Guest
 2: Continue as Store Manager
 3: Exit
  '''
-Guest_Menu = ''' Select one of the following
+GuestMenu = ''' Select one of the following
     0: Return to main menu
     1: Count how many stores that sell Wings Deliver as well 
     2: For each store that carries beer, count how many delivery orders have been made
     '''
-Manager_menu = '''
+ManagerMenu = '''
 0: Return to main menu
 1:
 2:
 3:
 '''
-Retrive_Psw = '''
+RetrievePsw = '''
 SELECT Password
   FROM Managers
   WHERE Username = ?;
 '''
-Retrive_skey = '''
+RetrieveManagerStore = '''
 SELECT M_store
   FROM Managers
   WHERE Username = ?;
 '''
-Retrive_Store = '''
+RetrieveStore = '''
 SELECT st_name
   FROM store
   Where st_storekey = ?;'''

@@ -30,7 +30,7 @@ def CheckManager(con):
         # now that we have inputs check if they are valid
         try:
             cur =  con.cursor();
-            data = con.execute(Retrive_Psw,(Username,))
+            data = con.execute(RetrievePsw,(Username,))
             x = data.fetchone();
             if x  != None: # only while a value is returned
                 for r in x :
@@ -43,12 +43,12 @@ def CheckManager(con):
             try:
                 # get store key
                 cur =  con.cursor();
-                data = con.execute(Retrive_skey,(Username,))
+                data = con.execute(RetrieveStore,(Username,))
                 x = data.fetchone();
                 for r in x :
                     key = r
                 # get store name
-                data = con.execute(Retrive_Store,(key,))
+                data = con.execute(RetriveStore,(key,))
                 x = data.fetchone();
                 for r in x :
                     name = r
@@ -108,7 +108,7 @@ def Guest_stuff(con):
             CountStores_W_BeerAndWings(con);
     return
 
-def CountWingsAndDelivery(con):
+'''def CountWingsAndDelivery(con):
     cursor =  con.cursor();
     try:
         cur = con.cursor();
@@ -131,7 +131,7 @@ def CountStores_W_BeerAndWings(con):
             amt = r
             print"Number of stores: " ,amt;
     except sqlite3.Error, e:
-        print'Error: ', e.args[0]
+        print'Error: ', e.args[0] '''
 #END OF COUNT_STORES_WITH_WINGS_AND_BEER
 
 
@@ -139,13 +139,15 @@ def CountStores_W_BeerAndWings(con):
 con = EstablishConnection()
 
 while True:
-    print (Inital_Menu)
+    print (MainMenu)
+    
     tmp = raw_input("Enter Value: ")
     try:
         tmp = int(tmp)
     except ValueError:
         print("ENTER A NUMBER, PLEASE\n")
         continue
+
     if int(tmp) == 2 :
         if (CheckManager(con)):
             Manager_stuff(con)
