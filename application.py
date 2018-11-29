@@ -5,7 +5,7 @@ import random
 import os
 import getpass
 from menus import*
-from querries import*
+from query import*
 
 
 def EstablishConnection():
