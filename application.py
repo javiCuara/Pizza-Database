@@ -126,17 +126,17 @@ def updateEntree(con, key):
     # List out options
     cur = con.cursor()
     StoreList = []
-    
-    result = cur.execute("SELECT e_name FROM entree WHERE e_storekey = ? GROUP BY e_name",(key,))
+    print("--------------------------------------")
+    result = cur.execute("SELECT e_name,e_stock FROM entree WHERE e_storekey = ? GROUP BY e_name",(key,))
     data = result.fetchall()
     tempStoreName = ""
     for row in data:
-        StoreList.append(row[0])
+        StoreList.append((row[0],row[1]))
 
     print("Which Entree would you like to update?")
     i = 1
     for entry in StoreList:
-        print("{0}: {1}").format(i, entry)
+        print("{0}: {1}:{2}").format(i, entry[0],entry[1])
         i += 1
 
 
