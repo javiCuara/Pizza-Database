@@ -93,13 +93,51 @@ def ManagerPortal(con,key):
         if  int(tmp) == 0 :
             break
         elif int(tmp) == 1:
-            getTotalInventory(con,key )
+            getTotalInventory(con,key)
+        elif int(tmp) == 2:
+            #do something
+            print("Coming Soon")
+        elif int(tmp) == 3:
+            print("--------------------------------------")
+            updateInventory(con,key)
+            #go to update portal
 
 def CustomerPortal(con):
     choice = StoreSelectMenu(con)
     print(choice)
     return
 
+def updateInventory(con, key):
+    while True:
+        print(Update_Menu)
+        tmp = raw_input("Enter value: ")
+        try:
+            tmp = int(tmp)
+        except ValueError:
+            print("ENTER A NUMBER, PLEASE\n")
+            print("\n")
+            continue
+        if int(tmp) == 0 :
+            break
+        if int(tmp) == 1:
+            updateEntree(con,key)
+
+def updateEntree(con, key):
+    # List out options
+    cur = con.cursor()
+    StoreList = []
+    
+    result = cur.execute("SELECT e_name FROM entree")
+    data = result.fetchall()
+    tempStoreName = ""
+    for row in data:
+        StoreList.append(row[0])
+
+    print("Which Entree would you like to update?")
+    i = 1
+    for entry in StoreList:
+        print("{0}: {1}").format(i, entry)
+        i += 1
 
 def getTotalInventory(con,key):
     Top = getTopings(con,key)
@@ -122,18 +160,20 @@ def getTotalInventory(con,key):
     print("               Sauces                    ")
     print("---------------------------------------")
     for i in sauce:
-        print '|',i[0],'|',i[1]
+        print '|',i[0],' \t|',i[1]
     print("---------------------------------------")
     print("               Entrees                   ")
     print("---------------------------------------")
     for i in entree:
-        print '|',i[0],'|',i[1]
+        print '|',i[0],' \t|',i[1]
     print("---------------------------------------")
     print("               Drinks                    ")
     print("---------------------------------------")
     for i in drink:
-        print '|',i[0],'|',i[1]
+        print '|',i[0],' \t|',i[1]
     print("---------------------------------------")
+
+
 def getTopings(con,key):
     #print("Topings")
     cur = con.cursor()
