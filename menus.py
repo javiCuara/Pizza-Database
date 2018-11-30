@@ -14,8 +14,16 @@ GuestMenu = ''' Select one of the following
 ManagerMenu = '''
 0: Return to main menu
 1: View Total inventory
-2:
-3:
+2: View a Specific List
+3: Update Inventory
+'''
+
+Update_Menu = ''' 
+0: Return to previous Menu
+1: Update Entrees
+2: Update Drinks
+3: Update Sides
+4: Update Sauce
 '''
 
 RetrievePsw = '''

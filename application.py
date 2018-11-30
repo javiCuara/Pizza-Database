@@ -138,6 +138,7 @@ def updateEntree(con, key):
     for entry in StoreList:
         print("{0}: {1}").format(i, entry)
         i += 1
+    print("boo")
 
 def getTotalInventory(con,key):
     Top = getTopings(con,key)
