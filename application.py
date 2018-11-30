@@ -34,17 +34,17 @@ def CheckManager(con):
             cur =  con.cursor();
             data = con.execute(RetrievePsw,(Username,))
             x = data.fetchone();
-            if x  != None: # only while a value is returned
+            if x != None:   # only check if a value is returned
                 for r in x :
                     tmpWord = r
         except sqlite3.Error, e:
             print'Error: ', e.args[0]
 
         #check credentials
-        if Pass == tmpWord :
+        if Pass == tmpWord:
             try:
                 # get store key
-                cur =  con.cursor();
+                cur = con.cursor();
                 data = con.execute(RetrieveManagerStore,(Username,))
                 x = data.fetchone();
                 for r in x :
@@ -74,7 +74,7 @@ def CheckManager(con):
                 continue
             elif int(tmp) == 2:
                 break
-            else :
+            else:
                 break
     # when loop ends then return boolean
     return s_key
@@ -103,8 +103,64 @@ def ManagerPortal(con,key):
             #go to update portal
 
 def CustomerPortal(con):
-    choice = StoreSelectMenu(con)
+    choice = StoreSelectMenu(con)   # Return the NAME of the store chosen
+    if(choice == "MAIN_MENU_RETURN"):
+        return
+
+    CustomerOrder(choice, con)
+
     print(choice)
+
+    return
+
+def StoreSelectMenu(con):
+    cur = con.cursor()
+    StoreList = []      # The list of stores available in the database
+    choice = ""         # The name of the store chosen by the user
+
+    print("Which store would you like to order from?\n")
+
+    result = cur.execute("SELECT st_name FROM store GROUP BY st_name;")
+    data = result.fetchall()
+    for row in data:
+        StoreList.append(row[0])
+
+    i = 1
+    for entry in StoreList:
+        print("{0}: {1}").format(i, entry)
+        i += 1
+    print("-1: Return to Main Menu\n")
+
+    while(True):
+        usrInput = raw_input("Enter value: ")
+        print("---------------------------------------\n")
+        try:
+            usrInput = int(usrInput)
+        except ValueError:
+            print("ENTER A NUMBER PLEASE")
+            continue
+
+        if(usrInput == -1):
+            return "MAIN_MENU_RETURN"
+        elif(usrInput == 0):
+            print("***PLEASE CHOOSE FROM THE LIST PROVIDED***\n")
+            continue
+
+        try:
+            choice = StoreList[usrInput - 1]
+            break
+        except IndexError:
+            print("***PLEASE CHOOSE FROM THE LIST PROVIDED***\n")
+            continue
+
+    return choice
+
+def CustomerOrder(store, con):
+    print("What pizza would you like to order?\n")
+
+    # Query for the pizzas available at the store provided
+    
+
     return
 
 def updateInventory(con, key):
@@ -129,7 +185,6 @@ def updateEntree(con, key):
     print("--------------------------------------")
     result = cur.execute("SELECT e_name,e_stock FROM entree WHERE e_storekey = ? GROUP BY e_name",(key,))
     data = result.fetchall()
-    tempStoreName = ""
     for row in data:
         StoreList.append((row[0],row[1]))
 
@@ -233,30 +288,6 @@ def getDrink(con,key):
     #print data
     return T_List
 
-def StoreSelectMenu(con):
-    cur = con.cursor()
-    StoreList = []
-
-    result = cur.execute("SELECT st_name FROM store GROUP BY st_name;")
-    data = result.fetchall()
-    tempStoreName = ""
-    for row in data:
-        StoreList.append(row[0])
-
-    print("Which store would you like to order from?")
-    i = 1
-    for entry in StoreList:
-        print("{0}: {1}").format(i, entry)
-        i += 1
-
-    usrInput = raw_input("Enter value: ")
-    try:
-        usrInput = int(usrInput)
-    except ValueError:
-        print("ENTER A NUMBER PLEASE")
-        print("\n")
-
-    return usrInput
 
 
 con = EstablishConnection()
@@ -265,6 +296,7 @@ while True:
     print (MainMenu)
 
     tmp = raw_input("Enter Value: ")
+    print("---------------------------------------\n")
     try:
         tmp = int(tmp)
     except ValueError:
