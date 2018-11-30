@@ -11,7 +11,7 @@ from query import*
 def EstablishConnection():
     dB = "/PizzaTime.db"
     try :
-        path = os.getcwd() + dB 
+        path = os.getcwd() + dB
         conn = sqlite3.connect(path)
         print("Connection Established");
     except ValueError:
@@ -24,7 +24,7 @@ def CheckManager(con):
     s_key = -9
     cur =  con.cursor();
     tmpWord = "something"
-    while True: 
+    while True:
         print("-------------------------------------- " )
         Username = raw_input("Enter UserID: ")
         Pass = str(getpass.getpass())
@@ -41,7 +41,7 @@ def CheckManager(con):
             print'Error: ', e.args[0]
 
         #check credentials
-        if Pass == tmpWord : 
+        if Pass == tmpWord :
             try:
                 # get store key
                 cur =  con.cursor();
@@ -76,7 +76,7 @@ def CheckManager(con):
                 break
             else :
                 break
-    # when loop ends then return boolean 
+    # when loop ends then return boolean
     return s_key
 
 
@@ -145,7 +145,7 @@ def getTotalInventory(con,key):
     Sides = getSides(con,key)
     sauce = getSauce(con,key)
     entree = getEntree(con,key)
-    drink = getDink(con,key)
+    drink = getDrink(con,key)
 
     print("              Toppings                ")
     print("---------------------------------------")
@@ -220,7 +220,7 @@ def getEntree(con,key):
     #print data
     return T_List
 
-def getDink(con,key):
+def getDrink(con,key):
     cur = con.cursor()
     T_List = []
     #print key
@@ -234,7 +234,7 @@ def getDink(con,key):
 def StoreSelectMenu(con):
     cur = con.cursor()
     StoreList = []
-    
+
     result = cur.execute("SELECT st_name FROM store GROUP BY st_name;")
     data = result.fetchall()
     tempStoreName = ""
@@ -253,7 +253,7 @@ def StoreSelectMenu(con):
     except ValueError:
         print("ENTER A NUMBER PLEASE")
         print("\n")
-    
+
     return usrInput
 
 
@@ -261,7 +261,7 @@ con = EstablishConnection()
 
 while True:
     print (MainMenu)
-    
+
     tmp = raw_input("Enter Value: ")
     try:
         tmp = int(tmp)
@@ -278,4 +278,3 @@ while True:
         sys.exit(1);
     elif int(tmp) == 1:
         CustomerPortal(con)
-
