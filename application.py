@@ -141,7 +141,7 @@ def updateEntree(con, key):
 
 
 def getTotalInventory(con,key):
-    Top = getTopings(con,key)
+    Top = getToppings(con,key)
     Sides = getSides(con,key)
     sauce = getSauce(con,key)
     entree = getEntree(con,key)
@@ -151,32 +151,34 @@ def getTotalInventory(con,key):
     print("---------------------------------------")
     for i in Top:
         print '|',i[0],' \t|',i[1]
-    print("---------------------------------------")
+    print("---------------------------------------\n")
 
     print("               Sides                    ")
     print("---------------------------------------")
     for i in Sides:
         print '|',i[0],'|',i[1]
-    print("---------------------------------------")
+    print("---------------------------------------\n")
+
     print("               Sauces                    ")
     print("---------------------------------------")
     for i in sauce:
         print '|',i[0],' \t|',i[1]
-    print("---------------------------------------")
+    print("---------------------------------------\n")
+
     print("               Entrees                   ")
     print("---------------------------------------")
     for i in entree:
         print '|',i[0],' \t|',i[1]
-    print("---------------------------------------")
+    print("---------------------------------------\n")
+
     print("               Drinks                    ")
     print("---------------------------------------")
     for i in drink:
         print '|',i[0],' \t|',i[1]
-    print("---------------------------------------")
+    print("---------------------------------------\n")
 
 
-def getTopings(con,key):
-    #print("Topings")
+def getToppings(con,key):
     cur = con.cursor()
     T_List = []
     #print key
