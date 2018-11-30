@@ -25,3 +25,10 @@ Update_Menu = '''
 3: Update Sides
 4: Update Sauce
 '''
+Indiv_Inventory = '''
+0: Return to previous Menu
+1: Entrees
+2: Drinks
+3: Sauce
+4: Sides
+5: Toppings '''

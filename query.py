@@ -21,6 +21,14 @@ SELECT st_name
   FROM store
   Where st_storekey = ?;'''
 
+
+
+prepared_Update = '''
+Update ?
+  Set ? = ?
+  WHERE ? = ? AND ? = ?
+'''
+
 # Retrive topping inventory for store ?
 ToppingStock = '''SELECT t_name,
        t_stock

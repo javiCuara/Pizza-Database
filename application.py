@@ -90,17 +90,121 @@ def ManagerPortal(con,key):
             print("ENTER A NUMBER, PLEASE\n")
             print("\n")
             continue
+        
         if  int(tmp) == 0 :
             break
+        
         elif int(tmp) == 1:
             getTotalInventory(con,key)
+
         elif int(tmp) == 2:
-            #do something
-            print("Coming Soon")
+            IndividualStock(con, key)
+        
         elif int(tmp) == 3:
             print("--------------------------------------")
             updateInventory(con,key)
-            #go to update portal
+        
+
+def IndividualStock(con,key):
+    getList = []
+    entrySuccess = False
+    availableTables = ["entree", "drink","sauce","sides","toppings"]
+    while True:
+        print(Indiv_Inventory)
+        tmp = raw_input("Enter value: ")
+        try:
+            tmp = int(tmp)
+            entrySuccess = True
+        except ValueError:
+            print("ENTER A NUMBER, PLEASE\n")
+            print("\n")
+            continue
+        if  int(tmp) == 0 :
+            break
+
+        elif int(tmp) == 1:
+            getList = getEntree(con, key)
+            print("\n              Entrees")
+
+        elif int(tmp) == 2:
+            getList = getDrink(con, key)
+            print("\n              Drinks:")
+        
+        elif int(tmp) == 3 :
+            getList = getSauce(con, key)
+            print("\n              Sauce")
+
+        elif int(tmp) == 4:
+            getList =getSides(con, key)
+            print("\n              Sides")
+
+        elif int(tmp) == 5: 
+            getList = getToppings(con, key)
+            print("\n              Toppings")
+        
+        print("---------------------------------------")
+        for i in getList:
+            print '|',i[0],' \t|',i[1]
+        print("---------------------------------------\n")
+
+        # Ask User if they want to modify data
+        while True and entrySuccess:
+            print("Would You like to modify this table?")
+            ans = raw_input("Enter: 1 for yes | 2 for no")
+            try:
+                ans = int(ans)
+            except ValueError:
+                print("ENTER A NUMBER, PLEASE\n")
+                print("\n")
+                continue
+            if  int(ans) == 2 :
+                break
+            elif int(ans) == 1:
+                    update_Selected_Inventory(con,key,availableTables[tmp-1],int(tmp)) # darn indexing
+
+
+def update_Selected_Inventory(con,key,selected_table,table_key):
+    amount = 0
+    isNegative = False
+    getSchema  = "PRAGMA table_info(" + selected_table + ");"
+    # print 'hey u made it here: ', selected_table
+    # first get the table schema and find they item key
+    cur = con.cursor()
+    T_List = []
+    getList = []
+    #print key
+    result = cur.execute(getSchema, )
+    data = result.fetchall()
+    for r in data:
+        T_List.append(r[1])
+        # print(r[1])
+    # print the options to update
+    if table_key == 1:
+        getList = getEntree(con, key)
+        print("\n              Entrees")
+
+    elif table_key == 2:
+        getList = getDrink(con, key)
+        print("\n              Drinks:")
+    
+    elif table_key == 3 :
+        getList = getSauce(con, key)
+        print("\n              Sauce")
+
+    elif table_key == 4:
+        getList =getSides(con, key)
+        print("\n              Sides")
+
+    elif table_key == 5: 
+        getList = getToppings(con, key)
+        print("\n              Toppings")
+    
+    print("---------------------------------------")
+    for i in getList:
+        print '|',i[0],' \t|',i[1]
+    print("---------------------------------------\n")
+
+
 
 def CustomerPortal(con):
     storeChoice = StoreSelectMenu(con)   # Return the NAME of the store chosen
