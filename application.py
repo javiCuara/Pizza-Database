@@ -127,7 +127,7 @@ def updateEntree(con, key):
     cur = con.cursor()
     StoreList = []
     
-    result = cur.execute("SELECT e_name FROM entree")
+    result = cur.execute("SELECT e_name FROM entree WHERE e_storekey = ? GROUP BY e_name",(key,))
     data = result.fetchall()
     tempStoreName = ""
     for row in data:
@@ -138,7 +138,7 @@ def updateEntree(con, key):
     for entry in StoreList:
         print("{0}: {1}").format(i, entry)
         i += 1
-    print("boo")
+
 
 def getTotalInventory(con,key):
     Top = getTopings(con,key)
