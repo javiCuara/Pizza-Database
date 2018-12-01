@@ -21,8 +21,6 @@ SELECT st_name
   FROM store
   Where st_storekey = ?;'''
 
-
-
 prepared_Update = '''
 Update ?
   Set ? = ?
@@ -62,7 +60,11 @@ SELECT d_brand,
   WHERE  d_storekey = ?
   GROUP BY d_brand;'''
 
-  
+
+def UpdateTable(tableName, attrToUpdate, updateValue, attrItemName, itemName, attrKey, key):
+    query = "UPDATE " + str(tableName) + " SET " + str(attrToUpdate) + " = " + str(updateValue) +  " WHERE " + str(attrItemName) + " = " + '"' + str(itemName) + '"' + " AND " + str(attrKey) + " = " + str(key) + ";"
+    return query
+
 # -- 1) Count how many stores that sell Wings Deliver as well
 Count_Wings_AND_Deliver ='''
  SELECT COUNT(DISTINCT st_name)

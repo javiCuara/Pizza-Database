@@ -39,6 +39,6 @@ while True:
             ManagerPortal(con,ky)
     elif int(tmp) == 3:
         con.close();
-        sys.exit(1);
+        sys.exit(0);    # Expected Termination
     elif int(tmp) == 1:
         CustomerPortal(con)

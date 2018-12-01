@@ -36,23 +36,16 @@ def CheckManager(con):
                 cur = con.cursor();
                 data = con.execute(RetrieveManagerStore,(Username,))
                 x = data.fetchone();
-                for r in x :
+                for r in x:
                     key = r
                 s_key = key
-                # get store name
-                data = con.execute(RetrieveStore,(key,))
-                x = data.fetchone();
-                for r in x :
-                    name = r
-                # print store name
-                print 'Welcome Manager:', name
-                connect = True # condition is met
+
                 break
             except sqlite3.Error, e:
                 print'Error: ', e.args[0]
 
         # if credentials are not valid then ask....
-        else :
+        else:
             tmp = raw_input("1:Try again | 2: Return ~")
             try:
                 tmp = int(tmp)
@@ -68,9 +61,24 @@ def CheckManager(con):
     # when loop ends then return boolean
     return s_key
 
-def ManagerPortal(con,key):
+def ManagerPortal(con, key):
+    cur = con.cursor()
+
     while True:
+        try:
+            # get store name
+            data = cur.execute(RetrieveStore, [key])
+            x = data.fetchone();
+            for r in x :
+                name = r
+                # print store name
+                print 'Welcome Manager:', name
+        except sqlite3.Error, e:
+            print("Error: ", e.args[0])
+            print("Problem Determining Store, returning to main menu.")
+            return
         print(ManagerMenu)
+
         tmp = raw_input("Enter value: ")
         try:
             tmp = int(tmp)
@@ -188,6 +196,7 @@ def getDrink(con,key):
 def IndividualStock(con,key):
     getList = []
     entrySuccess = False
+    mainReturn = False
     availableTables = ["entree", "drink","sauce","sides","toppings"]
     while True:
         print(Indiv_Inventory)
@@ -241,6 +250,8 @@ def IndividualStock(con,key):
                 break
             elif int(ans) == 1:
                     update_Selected_Inventory(con,key,availableTables[tmp-1],int(tmp)) # darn indexing
+                    print("---------------------------------------\n")
+                    return
 
 def update_Selected_Inventory(con, key, selected_table, table_key):
     amount = 0
@@ -384,11 +395,14 @@ def update_Selected_Inventory(con, key, selected_table, table_key):
             break
 
     try:
-        query = "UPDATE " + str(selected_table) + "  SET " +  str(table_name_stock) + " = "  +  str(newTotal) + " WHERE " + str(name) +  " = "  +  '"' + str(selected_item) + '"' + "  AND " + str(store_column) + "  = "  + str(key) + "; "
+        query = UpdateTable(selected_table, table_name_stock, newTotal, name, selected_item, store_column, key)
         cur.execute(query,)
         con.commit();
+        print("Database updated successfuly!\n")
     except sqlite3.Error, e:
         print'Error: ', e.args[0]
+        con.close()
+        sys.exit(1)     # Unexpected Termination
 
 def updateInventory(con, key):
     while True:

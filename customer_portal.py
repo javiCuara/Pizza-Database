@@ -31,7 +31,14 @@ def CustomerPortal(con):
     from {3}
     ''').format(entreeChoice, sideChoice, drinkChoice, storeChoice)
 
-    print("Thank you very much, have a great day!")
+    # Now that we've completed the order, we have to do some database management
+    # in the background to reflect the order.
+    #
+    # First, we have to create a new entry in the orders table
+    # Second, we have to update (decrement) the stock of what was ordered by the customer
+    # Third, we have to (EITHER BEFORE OR AFTER ORDERING) save the customer information
+
+    # The first part, we now have to create a new entry in the orders table
 
     return
 
