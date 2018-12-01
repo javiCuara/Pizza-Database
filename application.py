@@ -90,20 +90,20 @@ def ManagerPortal(con,key):
             print("ENTER A NUMBER, PLEASE\n")
             print("\n")
             continue
-        
+
         if  int(tmp) == 0 :
             break
-        
+
         elif int(tmp) == 1:
             getTotalInventory(con,key)
 
         elif int(tmp) == 2:
             IndividualStock(con, key)
-        
+
         elif int(tmp) == 3:
             print("--------------------------------------")
             updateInventory(con,key)
-        
+
 
 def IndividualStock(con,key):
     getList = []
@@ -129,7 +129,7 @@ def IndividualStock(con,key):
         elif int(tmp) == 2:
             getList = getDrink(con, key)
             print("\n              Drinks:")
-        
+
         elif int(tmp) == 3 :
             getList = getSauce(con, key)
             print("\n              Sauce")
@@ -138,10 +138,10 @@ def IndividualStock(con,key):
             getList =getSides(con, key)
             print("\n              Sides")
 
-        elif int(tmp) == 5: 
+        elif int(tmp) == 5:
             getList = getToppings(con, key)
             print("\n              Toppings")
-        
+
         print("---------------------------------------")
         for i in getList:
             print '|',i[0],' \t|',i[1]
@@ -163,7 +163,7 @@ def IndividualStock(con,key):
                     update_Selected_Inventory(con,key,availableTables[tmp-1],int(tmp)) # darn indexing
 
 
-def update_Selected_Inventory(con,key,selected_table,table_key):
+def update_Selected_Inventory(con, key, selected_table, table_key):
     amount = 0
     isNegative = False
     selected_item = "boo"
@@ -190,7 +190,7 @@ def update_Selected_Inventory(con,key,selected_table,table_key):
     elif table_key == 2:
         getList = getDrink(con, key)
         print("\n              Drinks:")
-    
+
     elif table_key == 3 :
         getList = getSauce(con, key)
         print("\n              Sauce")
@@ -199,10 +199,10 @@ def update_Selected_Inventory(con,key,selected_table,table_key):
         getList =getSides(con, key)
         print("\n              Sides")
 
-    elif table_key == 5: 
+    elif table_key == 5:
         getList = getToppings(con, key)
         print("\n              Toppings")
-    
+
     print("---------------------------------------")
     z = 1
     for i in getList:
@@ -211,7 +211,7 @@ def update_Selected_Inventory(con,key,selected_table,table_key):
     print("---------------------------------------\n")
 
     print("Please select what item you want to update")
-    
+
     while True:
         tmp = raw_input("Enter value: ")
         try:
@@ -223,7 +223,7 @@ def update_Selected_Inventory(con,key,selected_table,table_key):
             continue
         if  int(tmp) not in range(1,z):
             print("***Please enter a valid number***")
-        
+
         else :
             index = int(tmp)-1
             selected_item =  getList[index]
@@ -256,7 +256,7 @@ def update_Selected_Inventory(con,key,selected_table,table_key):
                     print'New Stock for ' , selected_item , ' is ' , check
                     newTotal = check
                     break
-                else : 
+                else :
                     print("Enter a positive number")
             break
         elif int(option) == 2:
@@ -279,7 +279,7 @@ def update_Selected_Inventory(con,key,selected_table,table_key):
                         print'New Stock for ' , selected_item , ' is ' , check
                         newTotal = check
                         break
-                else : 
+                else :
                     print("Enter a positive number")
             break
     print("Updating information ...")
@@ -303,12 +303,10 @@ def update_Selected_Inventory(con,key,selected_table,table_key):
             store_column = r
             print r
             break
-   
+
     try:
-        r =  con.cursor()
-        querrry = "UPDATE " + str(selected_table) + "  SET " +  str(table_name_stock) + " = "  +  str(newTotal) + " WHERE " + str(name) +  " = "  +  '"' + str(selected_item) + '"' + "  AND " + str(store_column) + "  = "  + str(key) + "; "
-        print querrry
-        r.execute(querrry,)
+        query = "UPDATE " + str(selected_table) + "  SET " +  str(table_name_stock) + " = "  +  str(newTotal) + " WHERE " + str(name) +  " = "  +  '"' + str(selected_item) + '"' + "  AND " + str(store_column) + "  = "  + str(key) + "; "
+        cur.execute(query,)
         con.commit();
     except sqlite3.Error, e:
         print'Error: ', e.args[0]
