@@ -26,7 +26,7 @@ SELECT st_name
 prepared_Update = '''
 Update ?
   Set ? = ?
-  WHERE ? = ? AND ? = ?
+  WHERE ? = ? AND ? = ?;
 '''
 
 # Retrive topping inventory for store ?

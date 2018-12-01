@@ -150,7 +150,7 @@ def IndividualStock(con,key):
         # Ask User if they want to modify data
         while True and entrySuccess:
             print("Would You like to modify this table?")
-            ans = raw_input("Enter: 1 for yes | 2 for no")
+            ans = raw_input("Enter: 1 for yes | 2 for no ~ ")
             try:
                 ans = int(ans)
             except ValueError:
@@ -166,6 +166,9 @@ def IndividualStock(con,key):
 def update_Selected_Inventory(con,key,selected_table,table_key):
     amount = 0
     isNegative = False
+    selected_item = "boo"
+    index = 0
+    newTotal = 0
     getSchema  = "PRAGMA table_info(" + selected_table + ");"
     # print 'hey u made it here: ', selected_table
     # first get the table schema and find they item key
@@ -178,6 +181,7 @@ def update_Selected_Inventory(con,key,selected_table,table_key):
     for r in data:
         T_List.append(r[1])
         # print(r[1])
+
     # print the options to update
     if table_key == 1:
         getList = getEntree(con, key)
@@ -200,11 +204,113 @@ def update_Selected_Inventory(con,key,selected_table,table_key):
         print("\n              Toppings")
     
     print("---------------------------------------")
+    z = 1
     for i in getList:
-        print '|',i[0],' \t|',i[1]
+        print z,':',i[0] , 'Pizza'
+        z += 1
     print("---------------------------------------\n")
 
+    print("Please select what item you want to update")
+    
+    while True:
+        tmp = raw_input("Enter value: ")
+        try:
+            tmp = int(tmp)
+            entrySuccess = True
+        except ValueError:
+            print("ENTER A NUMBER, PLEASE\n")
+            print("\n")
+            continue
+        if  int(tmp) not in range(1,z):
+            print("***Please enter a valid number***")
+        
+        else :
+            index = int(tmp)-1
+            selected_item =  getList[index]
+            selected_item = selected_item[0]
+            break
+    print("Do you wish to increment or decrement stock ?")
+    value = ''
+    while True:
+        option =  raw_input("Enter: 1 for Increment | 2 for Decrement ~ ")
+        try:
+            option = int(option)
+        except ValueError:
+            print("ENTER A NUMBER, PLEASE\n")
+            print("\n")
+            continue
+        if int(option) == 1:
+            while True:
+                inv =  getList[index]
+                inv = inv[1]
+                print 'Current Inventory is: ' , inv
+                value = raw_input( "Enter amount: ")
+                try:
+                     value = int(value)
+                except ValueError:
+                     print("ENTER A NUMBER, PLEASE\n")
+                     print("\n")
+                     continue
+                if int(value) >= 0:
+                    check = int(inv) + int(value)
+                    print'New Stock for ' , selected_item , ' is ' , check
+                    newTotal = check
+                    break
+                else : 
+                    print("Enter a positive number")
+            break
+        elif int(option) == 2:
+            while True:
+                inv =  getList[index]
+                inv = inv[1]
+                print 'Current Inventory is: ' , inv
+                value = raw_input( "Enter amount: ")
+                try:
+                     value = int(value)
+                except ValueError:
+                     print("ENTER A NUMBER, PLEASE\n")
+                     print("\n")
+                     continue
+                if int(value) >= 0:
+                    check = int(inv) - int(value)
+                    if check < 0:
+                        print("You cannot have negative stock!")
+                    else:
+                        print'New Stock for ' , selected_item , ' is ' , check
+                        newTotal = check
+                        break
+                else : 
+                    print("Enter a positive number")
+            break
+    print("Updating information ...")
 
+    name = "boo"
+    table_name_stock = "meh"
+    store_column = "yyy"
+    for r in T_List:
+        if "name"  in r or 'brand' in r:
+            name = r
+            print r
+            break
+    for r in T_List:
+        if 'stock' in r:
+            table_name_stock = r
+            print r
+            break
+
+    for r in T_List:
+        if 'storekey' in r or 'offeredBy' in r :
+            store_column = r
+            print r
+            break
+   
+    try:
+        r =  con.cursor()
+        querry = "UPDATE ",selected_table,"  SET ", table_name_stock, "  = ", , " WHERE :c = :d AND :e = :f; "
+        r.execute("UPDATE ",selected_table,"  SET :a = :b WHERE :c = :d AND :e = :f; ", { "a":table_name_stock , "b":newTotal ,"c":name,"d":selected_item , "e":store_column , "f":key} )
+        r.commit();
+    except sqlite3.Error, e:
+        print'Error: ', e.args[0]
 
 def CustomerPortal(con):
     storeChoice = StoreSelectMenu(con)   # Return the NAME of the store chosen
