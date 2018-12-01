@@ -306,9 +306,10 @@ def update_Selected_Inventory(con,key,selected_table,table_key):
    
     try:
         r =  con.cursor()
-        querry = "UPDATE ",selected_table,"  SET ", table_name_stock, "  = ", , " WHERE :c = :d AND :e = :f; "
-        r.execute("UPDATE ",selected_table,"  SET :a = :b WHERE :c = :d AND :e = :f; ", { "a":table_name_stock , "b":newTotal ,"c":name,"d":selected_item , "e":store_column , "f":key} )
-        r.commit();
+        querrry = "UPDATE " + str(selected_table) + "  SET " +  str(table_name_stock) + " = "  +  str(newTotal) + " WHERE " + str(name) +  " = "  +  '"' + str(selected_item) + '"' + "  AND " + str(store_column) + "  = "  + str(key) + "; "
+        print querrry
+        r.execute(querrry,)
+        con.commit();
     except sqlite3.Error, e:
         print'Error: ', e.args[0]
 
