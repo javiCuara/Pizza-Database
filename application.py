@@ -27,6 +27,7 @@ def EstablishConnection():
 
 con = EstablishConnection()
 print colored(Welcome , 'red')
+
 print colored(pizzaIcon, 'red')
 # print("________________________________________________________________________________________")
 

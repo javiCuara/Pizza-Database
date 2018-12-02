@@ -119,7 +119,9 @@ def ManagerPortal(con, key):
 
         elif int(tmp)  == 8:
             List_myDrivers(con,key)
-
+        elif int(tmp) == 9:
+            print 'coming soon'
+            reviewCustomerXXXOrder(con,key)
 def getTotalInventory(con,key):
     Top = getToppings(con,key)
     Sides = getSides(con,key)
@@ -554,8 +556,10 @@ def List_Customers(con,key):
     data = result.fetchall()
     print 'These are our customers:'
     print("_______________________________________")
+    i = 1
     for row in data:
-        print row[0]
+        print i, ':', row[0]
+        i+=1
     print("_______________________________________")
     print("---------------------------------------")
 
@@ -649,4 +653,63 @@ def printGreeting(key):
         # print hello
         # print To
         print colored(LittleOven,'red')
-    
+
+def printOrder(con, key, c_name,s_name):
+    print 'coming soon'
+    cur = con.cursor()
+    result = cur.execute(receiptForXYZ, (c_name,s_name,))
+    data = result.fetchall()
+    print c_name , 'Ordered:'
+    print("_______________________________________")
+    for r in data:
+        print  r[1] , 'Pizza with' , r[2] , 'and' , r[3]
+        print("-----------------------------------------")
+        # print r
+    print("_______________________________________")
+def getCustomers(con,key):
+    getList = []
+    cur = con.cursor()
+    result = cur.execute(Customer_List, (key,))
+    data = result.fetchall()
+    for r in data:
+        getList.append(r[0])
+    return getList
+def getStoreName(con,key):
+    Name = 'Something'
+    cur = con.cursor()
+    result = cur.execute("SELECT st_name FROM store WHERE st_storekey = ?", (key,))
+    data = result.fetchall()
+    for r in data:
+        Name = r[0]
+    return Name
+
+def reviewCustomerXXXOrder(con,key):
+    print '-1: To cancel'
+    # this prints the customers
+    List_Customers(con,key)
+    # this gets them in a lis
+    myCustomers = getCustomers(con,key)
+    myRange = len(myCustomers)
+    while(True):
+        usrInput = raw_input("Enter value: ")
+        print("---------------------------------------\n")
+        try:
+            usrInput = int(usrInput)
+        except ValueError:
+            print("ENTER A NUMBER PLEASE")
+            continue
+
+        if(usrInput == -1):
+            return "MAIN_MENU_RETURN"
+        # elif(usrInput == 0):
+        #     print("***PLEASE CHOOSE FROM THE LIST PROVIDED***\n")
+        #     continue
+        elif int(usrInput) not in range(1,myRange):
+            print("***PLEASE CHOOSE FROM THE LIST PROVIDED***\n")
+        else:
+            choice = myCustomers[usrInput-1]
+            storeName = getStoreName(con,key)
+            printOrder(con,key,choice,storeName)
+            print colored(divider,'red')
+            time.sleep(1)
+            break

@@ -21,6 +21,25 @@ ManagerMenu = '''
 6: View Customer List
 7: Best Customer 
 8: List Drivers
+9: View order for 'x' customer
+10: Add a new item to sell
+11: Remove item from menu
+'''
+Insert_menu = '''
+0: Return to previous menu
+1: Insert into Entree
+2: Insert into Drinks
+3: Insert into Sides
+4: Insert into Sauce
+5: Insert into Toppings
+'''
+Delete_menu = '''
+0: Return to previous menu
+1: Delete from Entree
+2: Delete from Drinks
+3: Delete from Sides
+4: Delete from Sauce
+5: Delete from Toppings
 '''
 
 Update_Menu = '''
