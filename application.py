@@ -2,9 +2,7 @@
 import sqlite3
 import sys
 import os
-# sys.path.append('.../')
-
-sys.path.insert(0,os.getcwd()+"/termcolor/termcolor.py")
+sys.path.insert(0,os.getcwd()+"/termcolor/termcolor.py") # dont delete this tory its needed!!!!!!
 
 from termcolor import colored, cprint
 
@@ -48,10 +46,11 @@ while True:
         if (ky != -9):
             ManagerPortal(con,ky)
     elif int(tmp) == 3:
-        print("____________________________________________________________________________________________")
+        # print("____________________________________________________________________________________________")
+        print colored(divider , 'red')
         print colored(ByeBye, 'red')
         con.close();
         sys.exit(0);    # Expected Termination
     elif int(tmp) == 1:
-        print("---------------------------------------")
+        print colored(divider , 'red')
         CustomerPortal(con)

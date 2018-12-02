@@ -2,7 +2,7 @@
 import sqlite3
 import sys
 import os
-sys.path.insert(0,os.getcwd()+"/termcolor/termcolor.py")
+sys.path.insert(0,os.getcwd()+"/termcolor/termcolor.py") # dont delete this tory its needed!!!!!!
 
 # sys.path.append('.../')import re
 import getpass
@@ -19,10 +19,10 @@ def CheckManager(con):
     tmpWord = "something"
     while True:
         print colored(Login, 'red')
-        print("-------------------------------------- " )
+        print colored(divider , 'red')
         Username = raw_input("Enter UserID: ")
         Pass = str(getpass.getpass())
-        print("-------------------------------------- " )
+        print colored(divider , 'red')
         # now that we have inputs check if they are valid
         try:
             cur =  con.cursor();
@@ -397,7 +397,7 @@ def update_Selected_Inventory(con, key, selected_table, table_key):
             break
     # print("Updating information ...")
     print colored(Updating,'red')
-    print("____________________________________________________________________________________________")
+    print colored(divider , 'red')
 
     name = "boo"
     table_name_stock = "meh"
@@ -425,7 +425,8 @@ def update_Selected_Inventory(con, key, selected_table, table_key):
         con.commit();
         time.sleep(2)
         print colored(success,'red')
-        print("____________________________________________________________________________________________")
+        print colored(divider , 'red')
+        #  print("____________________________________________________________________________________________")
 
         # print("Database updated successfuly!\n")
     except sqlite3.Error, e:
@@ -563,13 +564,14 @@ def Vip_customer(con,key):
     cur = con.cursor()
     result = cur.execute(store_VIP, (key,))
     data = result.fetchall()
-    print("_______________________________________")
+    print colored(divider , 'red')
+    # print("_______________________________________")
     print colored(Mvp,'red') 
     for r in data:
         print '\t',r[0]
         name = r[0]
-    print("_______________________________________")
-
+    # print("_______________________________________")
+    print colored(divider , 'red')
     print "Would you like to see their favorite items?"
     while True:
         tmp = raw_input("Enter: 1 for Yes | 2 for No ~ ")

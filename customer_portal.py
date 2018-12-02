@@ -2,7 +2,7 @@
 import sqlite3
 import sys
 import os
-sys.path.insert(0,os.getcwd()+"/termcolor/termcolor.py")
+sys.path.insert(0,os.getcwd()+"/termcolor/termcolor.py") # dont delete this tory its needed!!!!!!
 
 # sys.path.append('.../')
 from termcolor import colored, cprint
