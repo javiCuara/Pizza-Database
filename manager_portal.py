@@ -14,6 +14,7 @@ def CheckManager(con):
     cur =  con.cursor();
     tmpWord = "something"
     while True:
+        print Login
         print("-------------------------------------- " )
         Username = raw_input("Enter UserID: ")
         Pass = str(getpass.getpass())
@@ -103,16 +104,16 @@ def ManagerPortal(con, key):
             viewBestSelling(con,key)
 
         elif int(tmp)  == 5:
-            print("comming soon")
+           viewBest_sellingCombination(con,key)
         
         elif int(tmp)  == 6:
-            print("comming soon")
+           List_Customers(con,key)
         
         elif int(tmp)  == 7:
-            print("comming soon")
-            
+            Vip_customer(con,key)
+
         elif int(tmp)  == 8:
-            print("comming soon")
+            List_myDrivers(con,key)
 
 def getTotalInventory(con,key):
     Top = getToppings(con,key)
@@ -491,3 +492,109 @@ def viewBestSelling(con,key):
     for r in items:
         print '|' , r[0] , 'Pizza |' , r[1] , '|' , r[2]       
     print("--------------------------------------")
+
+def viewBest_sellingCombination(con,key):
+    order = []
+    
+    Entree = "something"
+    Side = "Something"
+    Drink = "Something"
+
+    cur = con.cursor()
+    result = cur.execute(Find_Most_Ordered_Combination, (key,))
+    data = result.fetchall()
+    
+    for row in data:
+        order.append((row[0],row[1],row[2]))
+    # the query gives use the keys to the corresponding items 
+    # now querry for them
+    for r in order:
+        Entree = r[0]
+        Side = r[1]
+        Drink = r[2]
+    
+
+    result = cur.execute("SELECT e_name FROM entree WHERE e_key = ? AND e_storekey = ? ", (Entree,key,))
+    data = result.fetchall()
+    for r in data :
+        Entree = r[0]
+
+    result = cur.execute("SELECT s_name FROM sides WHERE s_key = ? AND s_storekey = ? ", (Side,key,))
+    data = result.fetchall()
+    for r in data :
+        Side = r[0]
+
+    result = cur.execute("SELECT d_brand FROM drink WHERE d_key = ? AND d_storekey = ? ", (Drink,key,))
+    data = result.fetchall()
+    for r in data :
+        Drink = r[0]
+
+
+    print 'This is the Best selling order combination'
+    print '|' , Entree , 'Pizza With' , Side, '&' , Drink       
+    print("--------------------------------------")
+
+def List_Customers(con,key):
+    print("---------------------------------------")
+    
+    cur = con.cursor()
+    result = cur.execute(Customer_List, (key,))
+    data = result.fetchall()
+    print 'These are our customers:'
+    print("_______________________________________")
+    for row in data:
+        print row[0]
+    print("_______________________________________")
+    print("---------------------------------------")
+
+def Vip_customer(con,key):
+    name = 'Jane Doe'
+    cur = con.cursor()
+    result = cur.execute(store_VIP, (key,))
+    data = result.fetchall()
+    print("_______________________________________")
+    print "\t\t" , Mvp
+    for r in data:
+        print '\t',r[0]
+        name = r[0]
+    print("_______________________________________")
+
+    print "Would you like to see their favorite items?"
+    while True:
+        tmp = raw_input("Enter: 1 for Yes | 2 for No ~ ")
+        try:
+            tmp = int(tmp)
+        except ValueError:
+            print("ENTER A NUMBER, PLEASE\n")
+            print("\n")
+            continue
+        if int(tmp) == 2 :
+            break
+        elif int(tmp) == 1:
+            # print 'coming soon'
+            MVP_FavOrder(con,key,name)
+            break
+
+
+
+def List_myDrivers(con,key):
+    cur = con.cursor()
+    result = cur.execute(myDrivers, (key,))
+    data = result.fetchall()
+    print('These are all active drivers:')
+    print("_______________________________________")
+    for r in data:
+        print r[0]
+    print("_______________________________________")
+
+def MVP_FavOrder(con,key,name):
+    cur = con.cursor()
+    result = cur.execute(Mvps_favoriteOrder, (key,name,))
+    data = result.fetchall()
+    print("_______________________________________\n")
+    print name, "favorite order is:"
+    for r in data:
+        print r[1] , 'Pizza with' , r[2] , 'and', r[3]
+        # print r[0] 
+        # print r[4]
+    print("_______________________________________")

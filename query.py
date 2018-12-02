@@ -189,6 +189,77 @@ SELECT
        AS info
  WHERE info.Store = ?;
  '''
+Customer_List = '''
+ SELECT  c_name 
+ FROM Customer, Orders
+ WHERE c_key = o_custkey AND
+       o_store = ?  '''
+
+store_VIP = '''
+SELECT c_name,
+       max(info.cnt) 
+  FROM (
+           SELECT c_name,
+                  count( * ) AS cnt,
+                  o_store
+             FROM Orders,
+                  Customer
+            WHERE o_custkey = c_key
+            GROUP BY c_key,
+                     o_store
+       )
+       AS info
+ WHERE info.o_store = ?;
+'''
+myDrivers = '''
+SELECT Driver_name,
+       o_store
+  FROM Orders,
+       Delivery
+ WHERE o_orderkey = order_id AND 
+       o_store = ?;
+ '''
+
+Mvp = '''
+     ___  ___   _     _   _____  
+    /   |/   | | |   / / |  _  \ 
+   / /|   /| | | |  / /  | |_| | 
+  / / |__/ | | | | / /   |  ___/ 
+ / /       | | | |/ /    | |     
+/_/        |_| |___/     |_|     
+'''
+Login = '''
+ _       _____   _____   _   __   _  
+| |     /  _  \ /  ___| | | |  \ | | 
+| |     | | | | | |     | | |   \| | 
+| |     | | | | | |  _  | | | |\   | 
+| |___  | |_| | | |_| | | | | | \  | 
+|_____| \_____/ \_____/ |_| |_|  \_|  '''
+
+ByeBye = '''
+ _____   _____   _____   _____        _____  __    __  _____  
+/  ___| /  _  \ /  _  \ |  _  \      |  _  \ \ \  / / | ____| 
+| |     | | | | | | | | | | | |      | |_| |  \ \/ /  | |__   
+| |  _  | | | | | | | | | | | |      |  _  |   \  /   |  __|  
+| |_| | | |_| | | |_| | | |_| |      | |_| |   / /    | |___  
+\_____/ \_____/ \_____/ |_____/      |_____/  /_/     |_____| 
+'''
+Mvps_favoriteOrder = '''
+SELECT Q1.c_name,
+       Q1.e_name,
+       Q1.s_name,
+       Q1.d_brand,
+       Q1.st_name
+  FROM PlacedOrders Q1,
+       getMVPS Q2,
+       store M
+ WHERE Q1.c_name = Q2.c_name AND 
+       Q2.store = M.st_storekey AND 
+       M.st_name = Q1.st_name
+       GROUP BY Q1.st_name AND 
+       M.st_storekey = ? AND 
+       Q1.c_name = ?;
+'''
 
 # SELECT e_key,
 #        s_key,
@@ -202,3 +273,20 @@ SELECT
 #          o_drink = d_key AND
 #          o_side = s_key
 #      GROUP by KEY , o_orderkey
+# SELECT DISTINCT c_name,
+#        max(info.cnt),
+#        info.c_key,
+#        info.o_store
+#   FROM (
+#            SELECT c_name,
+#                   count( * ) AS cnt,
+#                   o_store, 
+#                   c_key
+#              FROM Orders,
+#                   Customer
+#             WHERE o_custkey = c_key
+#             GROUP BY c_key,
+#                      o_store
+#        )
+#        AS info
+# GROUP By info.o_store

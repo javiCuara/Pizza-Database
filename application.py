@@ -26,7 +26,6 @@ while True:
     print (MainMenu)
 
     tmp = raw_input("Enter Value: ")
-    print("---------------------------------------\n")
     try:
         tmp = int(tmp)
     except ValueError:
@@ -38,7 +37,10 @@ while True:
         if (ky != -9):
             ManagerPortal(con,ky)
     elif int(tmp) == 3:
+        print("_______________________________________")
+        print ByeBye
         con.close();
         sys.exit(0);    # Expected Termination
     elif int(tmp) == 1:
+        print("---------------------------------------")
         CustomerPortal(con)
