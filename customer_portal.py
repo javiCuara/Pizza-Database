@@ -1,7 +1,11 @@
 # Proprietary
 import sqlite3
 import sys
+import os
+sys.path.insert(0,os.getcwd()+"/termcolor/termcolor.py")
 
+# sys.path.append('.../')
+from termcolor import colored, cprint
 # Created
 from menus import*
 from query import*

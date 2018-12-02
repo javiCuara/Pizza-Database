@@ -1,9 +1,13 @@
 # Proprietary
 import sqlite3
 import sys
-import re
-import getpass
+import os
+sys.path.insert(0,os.getcwd()+"/termcolor/termcolor.py")
 
+# sys.path.append('.../')import re
+import getpass
+import time
+from termcolor import colored, cprint
 # Created
 from menus import*
 from query import*
@@ -14,7 +18,7 @@ def CheckManager(con):
     cur =  con.cursor();
     tmpWord = "something"
     while True:
-        print Login
+        print colored(Login, 'red')
         print("-------------------------------------- " )
         Username = raw_input("Enter UserID: ")
         Pass = str(getpass.getpass())
@@ -266,7 +270,7 @@ def IndividualStock(con,key):
                 break
             elif int(ans) == 1:
                     update_Selected_Inventory(con,key,availableTables[tmp-1],int(tmp)) # darn indexing
-                    print("---------------------------------------\n")
+                    # print("---------------------------------------\n")
                     return
 
 def update_Selected_Inventory(con, key, selected_table, table_key):
@@ -391,7 +395,9 @@ def update_Selected_Inventory(con, key, selected_table, table_key):
                 else :
                     print("Enter a positive number")
             break
-    print("Updating information ...")
+    # print("Updating information ...")
+    print colored(Updating,'red')
+    print("____________________________________________________________________________________________")
 
     name = "boo"
     table_name_stock = "meh"
@@ -417,7 +423,11 @@ def update_Selected_Inventory(con, key, selected_table, table_key):
         query = UpdateTable(selected_table, table_name_stock, newTotal, name, selected_item, store_column, key)
         cur.execute(query,)
         con.commit();
-        print("Database updated successfuly!\n")
+        time.sleep(2)
+        print colored(success,'red')
+        print("____________________________________________________________________________________________")
+
+        # print("Database updated successfuly!\n")
     except sqlite3.Error, e:
         print'Error: ', e.args[0]
         con.close()
@@ -554,7 +564,7 @@ def Vip_customer(con,key):
     result = cur.execute(store_VIP, (key,))
     data = result.fetchall()
     print("_______________________________________")
-    print "\t\t" , Mvp
+    print colored(Mvp,'red') 
     for r in data:
         print '\t',r[0]
         name = r[0]
@@ -604,37 +614,37 @@ def printGreeting(key):
     if key == 1:
         # print hello
         # print To
-        print "\t",Dominos
+        print colored(Dominos , 'red')
     elif key == 2:
         # print hello
         # print To
-        print PizzaHut
+        print colored(PizzaHut , 'red')
     elif key == 3:
         # print hello
         # print To
-        print Mountain
+        print colored(Mountain , 'red')
     elif key == 4:
         # print hello
         # print To
-        print PizzaPalace
+        print colored(PizzaPalace,'red')
     elif key == 5:
         # print hello
         # print To
-        print PizzaFactory
+        print colored(PizzaFactory,'red')
     elif key == 6:
         # print hello
         # print To
-        print PizzaGuys
+        print colored(PizzaGuys,'red')
     elif key == 7:
         # print hello
         # print To
-        print PizzaVilla
+        print colored(PizzaVilla,'red')
     elif key == 8:
         # print hello
         # print To
-        print PizzaLoca
+        print colored(PizzaLoca,'red')
     elif key == 9:
         # print hello
         # print To
-        print LittleOven
+        print colored(LittleOven,'red')
     

@@ -2,6 +2,12 @@
 import sqlite3
 import sys
 import os
+# sys.path.append('.../')
+
+sys.path.insert(0,os.getcwd()+"/termcolor/termcolor.py")
+
+from termcolor import colored, cprint
+
 
 # Created
 from menus import*
@@ -22,13 +28,14 @@ def EstablishConnection():
 
 
 con = EstablishConnection()
-print Welcome
+print colored(Welcome , 'red')
+print colored(pizzaIcon, 'red')
 # print("________________________________________________________________________________________")
 
 while True:
     
-    print (MainMenu)
-
+    print(MainMenu)
+    cprint
     tmp = raw_input("Enter Value: ")
     try:
         tmp = int(tmp)
@@ -42,7 +49,7 @@ while True:
             ManagerPortal(con,ky)
     elif int(tmp) == 3:
         print("____________________________________________________________________________________________")
-        print ByeBye
+        print colored(ByeBye, 'red')
         con.close();
         sys.exit(0);    # Expected Termination
     elif int(tmp) == 1:
