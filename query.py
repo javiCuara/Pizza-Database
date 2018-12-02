@@ -60,6 +60,15 @@ SELECT d_brand,
   WHERE  d_storekey = ?
   GROUP BY d_brand;'''
 
+getBestSelling_Items = ''' 
+SELECT Q3.Entree , Q2.Side , Q1.Drink 
+FROM getBestDrink  Q1,
+     getBestSide  Q2, 
+     getBestEntree  Q3
+ Where Q1.Store = Q2.Store AND 
+       Q3.Store = Q1.Store AND 
+       Q1.Store = ?
+'''
 
 def UpdateTable(tableName, attrToUpdate, updateValue, attrItemName, itemName, attrKey, key):
     query = "UPDATE " + str(tableName) + " SET " + str(attrToUpdate) + " = " + str(updateValue) +  " WHERE " + str(attrItemName) + " = " + '"' + str(itemName) + '"' + " AND " + str(attrKey) + " = " + str(key) + ";"
@@ -158,14 +167,38 @@ List_Customers_OrderedThin = '''
           o_entree = e_key AND
           e_ingredients LIKE "%Thin Cust%";
  '''
-#8
+Find_Most_Ordered_Combination = '''
+SELECT
+       info.Entree,
+       info.Side,
+       info.Drink,
+       max(info.[key])
+  FROM (
+           SELECT count( * ) AS [Key],
+                  Q1.e_key AS Entree,
+                  Q1.d_key AS Drink,
+                  Q1.s_key AS Side,
+                  Q1.[Key] AS Store
+             FROM Combinations Q1
+            GROUP BY Entree,
+                     Side,
+                     Drink,
+                     Store
+            ORDER BY Store ASC
+       )
+       AS info
+ WHERE info.Store = ?;
+ '''
 
-#9
-
-#10
-
-
-#11
-
-
-#12
+# SELECT e_key,
+#        s_key,
+#        d_key,
+#        d_storekey as KEY
+#    FROM entree, sides, drink, Orders
+#    WHERE e_storekey = s_storekey AND
+#          d_storekey = e_storekey AND
+#          o_store = d_storekey AND 
+#          o_entree = e_key AND
+#          o_drink = d_key AND
+#          o_side = s_key
+#      GROUP by KEY , o_orderkey

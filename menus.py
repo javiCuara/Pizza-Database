@@ -17,6 +17,10 @@ ManagerMenu = '''
 2: View a Specific List
 3: Update Inventory
 4: View best selling items
+5: View best selling Order combination
+6: View Customer List
+7: Best Customer 
+8: 
 '''
 
 Update_Menu = '''

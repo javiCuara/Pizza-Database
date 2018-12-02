@@ -102,6 +102,18 @@ def ManagerPortal(con, key):
         elif int(tmp)  == 4:
             viewBestSelling(con,key)
 
+        elif int(tmp)  == 5:
+            print("comming soon")
+        
+        elif int(tmp)  == 6:
+            print("comming soon")
+        
+        elif int(tmp)  == 7:
+            print("comming soon")
+            
+        elif int(tmp)  == 8:
+            print("comming soon")
+
 def getTotalInventory(con,key):
     Top = getToppings(con,key)
     Sides = getSides(con,key)
