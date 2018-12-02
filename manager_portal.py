@@ -97,8 +97,10 @@ def ManagerPortal(con, key):
             IndividualStock(con, key)
 
         elif int(tmp) == 3:
-            print("--------------------------------------")
             updateInventory(con,key)
+
+        elif int(tmp)  == 4:
+            viewBestSelling(con,key)
 
 def getTotalInventory(con,key):
     Top = getToppings(con,key)
@@ -296,7 +298,10 @@ def update_Selected_Inventory(con, key, selected_table, table_key):
     print("---------------------------------------")
     z = 1
     for i in getList:
-        print z,':',i[0] , 'Pizza'
+        if(selected_table == 'entree'):
+            print z,':',i[0], 'pizza'
+        else: 
+            print z,':',i[0]
         z += 1
     print("---------------------------------------\n")
 
@@ -380,18 +385,18 @@ def update_Selected_Inventory(con, key, selected_table, table_key):
     for r in T_List:
         if "name"  in r or 'brand' in r:
             name = r
-            print r
+            # print r
             break
     for r in T_List:
         if 'stock' in r:
             table_name_stock = r
-            print r
+            # print r
             break
 
     for r in T_List:
         if 'storekey' in r or 'offeredBy' in r :
             store_column = r
-            print r
+            # print r
             break
 
     try:
@@ -405,6 +410,9 @@ def update_Selected_Inventory(con, key, selected_table, table_key):
         sys.exit(1)     # Unexpected Termination
 
 def updateInventory(con, key):
+    getList = []
+    availableTables = ["entree", "drink","sauce","sides","toppings"]
+
     while True:
         print(Update_Menu)
         tmp = raw_input("Enter value: ")
@@ -416,8 +424,30 @@ def updateInventory(con, key):
             continue
         if int(tmp) == 0 :
             break
-        if int(tmp) == 1:
-            updateEntree(con,key)
+        
+        elif int(tmp) == 1 :
+            getList = getEntree(con, key)
+            update_Selected_Inventory(con,key,availableTables[tmp-1],int(tmp))
+            # print("\n              Entrees")
+
+        elif int(tmp) == 2:
+            getList = getDrink(con, key)
+            update_Selected_Inventory(con,key,availableTables[tmp-1],int(tmp))
+            # print("\n              Drinks:")
+
+        elif int(tmp) == 3 :
+            getList = getSauce(con, key)
+            update_Selected_Inventory(con,key,availableTables[tmp-1],int(tmp))
+            # print("\n              Sauce")
+
+        elif int(tmp) == 4:
+            getList =getSides(con, key)
+            update_Selected_Inventory(con,key,availableTables[tmp-1],int(tmp))
+            # print("\n              Sides")
+
+        elif int(tmp) == 5:
+            getList = getToppings(con, key)
+            update_Selected_Inventory(con,key,availableTables[tmp-1],int(tmp))
 
 def updateEntree(con, key):
     # List out options
@@ -434,3 +464,18 @@ def updateEntree(con, key):
     for entry in storeList:
         print("{0}: {1}:{2}").format(i, entry[0], entry[1])
         i += 1
+def retrive_Table_Information(con,key,selected_table):
+    print("comming soon")
+
+def viewBestSelling(con,key):
+    items = []
+    cur = con.cursor()
+    result = cur.execute(getBestSelling_Items, (key,))
+    data = result.fetchall()
+    for row in data:
+        # print row[0]
+        items.append((row[0],row[1],row[2]))
+    print 'These are the Best selling Items'
+    for r in items:
+        print '|' , r[0] , 'Pizza |' , r[1] , '|' , r[2]       
+    print("--------------------------------------")

@@ -16,6 +16,7 @@ ManagerMenu = '''
 1: View Total inventory
 2: View a Specific List
 3: Update Inventory
+4: View best selling items
 '''
 
 Update_Menu = '''
@@ -24,6 +25,7 @@ Update_Menu = '''
 2: Update Drinks
 3: Update Sides
 4: Update Sauce
+5: Update Toppings
 '''
 Indiv_Inventory = '''
 0: Return to previous Menu
