@@ -22,7 +22,11 @@ def EstablishConnection():
 
 
 con = EstablishConnection()
+print Welcome
+# print("________________________________________________________________________________________")
+
 while True:
+    
     print (MainMenu)
 
     tmp = raw_input("Enter Value: ")
@@ -37,7 +41,7 @@ while True:
         if (ky != -9):
             ManagerPortal(con,ky)
     elif int(tmp) == 3:
-        print("_______________________________________")
+        print("____________________________________________________________________________________________")
         print ByeBye
         con.close();
         sys.exit(0);    # Expected Termination
