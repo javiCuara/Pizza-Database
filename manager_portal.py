@@ -602,39 +602,39 @@ def MVP_FavOrder(con,key,name):
 
 def printGreeting(key):
     if key == 1:
-        print hello
-        print To
+        # print hello
+        # print To
         print "\t",Dominos
     elif key == 2:
-        print hello
-        print To
+        # print hello
+        # print To
         print PizzaHut
     elif key == 3:
-        print hello
-        print To
+        # print hello
+        # print To
         print Mountain
     elif key == 4:
-        print hello
-        print To
+        # print hello
+        # print To
         print PizzaPalace
     elif key == 5:
-        print hello
-        print To
+        # print hello
+        # print To
         print PizzaFactory
     elif key == 6:
-        print hello
-        print To
+        # print hello
+        # print To
         print PizzaGuys
     elif key == 7:
-        print hello
-        print To
+        # print hello
+        # print To
         print PizzaVilla
     elif key == 8:
-        print hello
-        print To
+        # print hello
+        # print To
         print PizzaLoca
     elif key == 9:
-        print hello
-        print To
+        # print hello
+        # print To
         print LittleOven
     
