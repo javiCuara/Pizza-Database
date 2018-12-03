@@ -412,10 +412,10 @@ SELECT Q1.c_name,
        store M
  WHERE Q1.c_name = Q2.c_name AND
        Q2.store = M.st_storekey AND
-       M.st_name = Q1.st_name
-       GROUP BY Q1.st_name AND
+       M.st_name = Q1.st_name AND
        M.st_storekey = ? AND
-       Q1.c_name = ?;
+       Q1.c_name = ?
+  GROUP BY Q1.e_name , Q1.c_name;
 '''
 receiptForXYZ = '''
 SELECT Q1.c_name,

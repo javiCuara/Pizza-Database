@@ -681,7 +681,7 @@ def MVP_FavOrder(con,key,name):
     result = cur.execute(Mvps_favoriteOrder, (key,name,))
     data = result.fetchall()
     print("_______________________________________\n")
-    print name, "favorite order is:"
+    print name, "Has ordered this:"
     for r in data:
         print r[1] , 'Pizza with' , r[2] , 'and', r[3]
         # print r[0] 
