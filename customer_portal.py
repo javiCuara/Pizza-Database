@@ -16,21 +16,26 @@ def CustomerPortal(con):
     custAddress = ''
     custEmail = ''
     custName = ''
-    guestPhone = '0000000000'
+    guestPhone = 0000000000
 
     print('''Will this order be for delivery?
 1: Yes
 2: No
     ''')
-    delivery = raw_input("Please Make Your Selection: ")
-    if(delivery == '1'):
-        delivery = "YES"
-        custAddress = raw_input("Please enter your address:  ")
-        print('')
-    else:
-        delivery = "NO"
-        custAddress = 'NOT PROVIDED BY GUEST -- NO DELIV'
-        print('')
+    while(True):
+        delivery = raw_input("Please Make Your Selection: ")
+        if(delivery == '1'):
+            delivery = "YES"
+            custAddress = raw_input("Please enter your address:  ")
+            print('')
+            break
+        elif(delivery == '2'):
+            delivery = "NO"
+            custAddress = 'NOT PROVIDED BY GUEST -- NO DELIV'
+            print('')
+            break
+        else:
+            print("INVALID INPUT\n")
 
     storeChoice = StoreSelectMenu(con)   # Return the NAME of the store chosen
     if(storeChoice == "MAIN_MENU_RETURN"):
@@ -78,10 +83,8 @@ def CustomerPortal(con):
         custKey += 1
     except sqlite3.Error, e:
         print("Error: ", e.args[0])
-        # Should not reach this
 
     #c_name, c_email, c_address, c_key, c_phone
-    InsertNewCustomer = "INSERT INTO Customer VALUES (:name, :email, :addr, :key, :phone);"
     cur.execute(InsertNewCustomer, {"name": custName, "email": custEmail, "addr": custAddress, "key": custKey, "phone": guestPhone})
     con.commit()
 
@@ -91,13 +94,60 @@ def CustomerPortal(con):
     #
     # First, we have to create a new entry in the orders table
     # Second, we have to update (decrement) the stock of what was ordered by the customer
-    # Third, we have to (EITHER BEFORE OR AFTER ORDERING) save the customer information
 
-    # The first part, we now have to create a new entry in the orders table
+    # The first part, we now have to automatically create a new entry in the orders table
+    orderKey = -1
+    sideKey = -1
+    entreeKey = -1;
+    drinkKey = -1;
+    storeKey = -1;
+
+    try:
+        result = cur.execute("SELECT MAX(o_orderkey) FROM Orders")
+        data = result.fetchone()
+        for r in data:
+            orderKey = r
+        orderKey += 1
+
+        result = cur.execute(getStoreKey, (storeChoice,))
+        data = result.fetchone()
+        for r in data:
+            storeKey = r
+
+        result = cur.execute(getSideKey, (storeKey, sideChoice,))
+        data = result.fetchone()
+        for r in data:
+            sideKey = r
+
+        result = cur.execute(getEntreeKey, (storeKey, entreeChoice,))
+        data = result.fetchone()
+        for r in data:
+            entreeKey = r
+
+        result = cur.execute(getDrinkKey, (storeKey, drinkChoice,))
+        data = result.fetchone()
+        for r in data:
+            drinkKey = r
+
+        if(delivery == 'YES'):
+            delivery = 1
+        else:
+            delivery = 0
+    except sqlite3.Error, e:
+        print("Error: ", e.args[0])
+        con.close()
+        sys.exit(1)
 
     #'o_custkey', 'o_orderkey', 'o_side', 'o_entree', 'o_drink', 'o_store', 'o_dev'
-    # UpdateOrders = '''INSERT INTO Orders VALUES (?, ?, ?, ?, ?, ?, ?);'''
-    # cur.execute(UpdateOrders, ())
+    cur.execute(UpdateOrders, (custKey, orderKey, sideKey, entreeKey, drinkKey, storeKey, delivery,))
+    con.commit()
+
+    # Secondly, we have to decrease the stock of what was chosen. We saved the choices
+    # as variables which we can use to query and modify the stock count
+
+    # DO THE THING WITH STOCK DECREMENT
+
+    # Lastly, we have to add the customer to the delivery table, should we actually
 
     return
 
