@@ -22,8 +22,10 @@ ManagerMenu = '''
 7: Best Customer 
 8: List Drivers
 9: View order for 'x' customer
-10: Add a new item to sell
-11: Remove item from menu
+10: Add a new entree to sell
+11: Add a new drink to sell
+12: Add a new Side to sell
+13: Add a new Sauce 
 '''
 Insert_menu = '''
 0: Return to previous menu

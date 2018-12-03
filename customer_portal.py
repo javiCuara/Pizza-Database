@@ -216,3 +216,36 @@ def CustomerDrinkOrder(store, con):
             continue
 
     return choice
+
+# def check_for_Injections(broma):
+#     tmp = broma.upper();
+#     if 'LIKE' in tmp:
+#         return True
+#     elif 'SELECT' in tmp:
+#         return True
+#     elif 'INSERT' in tmp:
+#         return True
+#     elif 'UPDATE' in tmp:
+#         return True
+#     elif 'DELETE' in tmp:
+#         return True
+#     elif 'DROP' in tmp:
+#         return True
+#     elif 'CREATE' in tmp:
+#         return True
+#     else:
+#         return False
+# def InsertEntree(con,key):
+#     newE_key = 0
+#     E_name = "Something"
+#     cur = con.cursor()
+
+#     result = cur.execute(getMaxEntree_key, (key,))
+#     data = result.fetchall()
+    
+#     for r in data:
+#         newE_key = r[0] +1
+    
+#     # once that is done then ask user what they want to input
+#     while True:
+        

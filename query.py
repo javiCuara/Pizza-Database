@@ -69,7 +69,106 @@ FROM getBestDrink  Q1,
        Q3.Store = Q1.Store AND 
        Q1.Store = ?
 '''
+Insert_intoDrink = '''
+INSERT INTO drink (
+                      d_type,
+                      d_key,
+                      d_stock,
+                      d_brand,
+                      d_storekey
+                  )
+                  VALUES (
+                      ?,
+                      ?,
+                      ?,
+                      ?,
+                      ?
+                  );
 
+'''
+Insert_intoEntree = '''
+INSERT INTO entree (
+                       e_name,
+                       e_storekey,
+                       e_stock,
+                       e_key,
+                       e_ingredients
+                   )
+                   VALUES (
+                       ?,
+                       ?,
+                       ?,
+                       ?,
+                       ?
+                   );
+
+'''
+Insert_intoSauce = '''
+INSERT INTO sauce (
+                      sc_name,
+                      sc_key,
+                      sc_offeredBy,
+                      sc_stock
+                  )
+                  VALUES (
+                      ?,
+                      ?,
+                      ?,
+                      ?
+                  );
+
+'''
+Insert_intoSides = '''
+INSERT INTO sides (
+                      s_name,
+                      s_stock,
+                      s_storekey,
+                      s_key
+                  )
+                  VALUES (
+                      ?,
+                      ?,
+                      ?,
+                      ?
+                  );
+
+'''
+Insert_intoToppings = '''
+INSERT INTO toppings (
+                         t_name,
+                         t_key,
+                         t_storekey,
+                         t_stock
+                     )
+                     VALUES (
+                         ?,
+                         ?,
+                         ?,
+                         ?
+                      );
+
+'''
+getMaxEntree_key = '''
+SELECT max(e_key)
+  FROM entree
+  WHERE e_storekey = ?;
+
+'''
+getMaxDrink_key = '''
+SELECT max(d_key)
+  FROM drink
+  WHERE d_storekey = ?;
+'''
+getMaxSide_key = '''
+SELECT max(s_key)
+  FROM sides
+  WHERE s_storekey = ?;
+'''
+getMaxSauce_key = '''
+SELECT max(sc_key)
+  FROM sauce
+  WHERE sc_offeredBy = ?;
+'''
 def UpdateTable(tableName, attrToUpdate, updateValue, attrItemName, itemName, attrKey, key):
     query = "UPDATE " + str(tableName) + " SET " + str(attrToUpdate) + " = " + str(updateValue) +  " WHERE " + str(attrItemName) + " = " + '"' + str(itemName) + '"' + " AND " + str(attrKey) + " = " + str(key) + ";"
     return query
