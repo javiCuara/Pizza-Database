@@ -1064,11 +1064,14 @@ def InsertEntree(con,key):
             break
     Ingredients_counter = 0        
     print 'Max number of toppings per Pizza is 3'
+    print "Type 'Done' to stop"
     while True:
         # print Ingredients_counter
         tString = str(raw_input('Enter a toping: '))
         if (check_for_Injections(E_name)) or (checkForNumbers(E_name)) or (len(E_name)>24):
             print colored('PLEASE INSERT A valid Input', 'red') 
+        elif tString.upper() == 'DONE':
+            break
         elif Ingredients_counter >=2:
             tString = tString + ' - '
             Ingredients.append(tString)
