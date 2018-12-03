@@ -120,8 +120,16 @@ def ManagerPortal(con, key):
         elif int(tmp)  == 8:
             List_myDrivers(con,key)
         elif int(tmp) == 9:
-            print 'coming soon'
+            # print 'coming soon'
             reviewCustomerXXXOrder(con,key)
+        elif int(tmp) == 10:
+            InsertEntree(con,key)
+        elif int(tmp) == 11:
+            InsertDrink(con,key)
+        elif int(tmp) == 12:
+            InsertSide(con,key)
+        elif int(tmp) == 13:
+            InsertSauce(con,key)
 def getTotalInventory(con,key):
     Top = getToppings(con,key)
     Sides = getSides(con,key)
@@ -666,6 +674,7 @@ def printOrder(con, key, c_name,s_name):
         print("-----------------------------------------")
         # print r
     print("_______________________________________")
+
 def getCustomers(con,key):
     getList = []
     cur = con.cursor()
@@ -674,6 +683,7 @@ def getCustomers(con,key):
     for r in data:
         getList.append(r[0])
     return getList
+
 def getStoreName(con,key):
     Name = 'Something'
     cur = con.cursor()
@@ -713,3 +723,263 @@ def reviewCustomerXXXOrder(con,key):
             print colored(divider,'red')
             time.sleep(1)
             break
+
+def check_for_Injections(broma):
+    tmp = broma.upper();
+    if 'LIKE' in tmp:
+        return True
+    elif 'SELECT' in tmp:
+        return True
+    elif 'INSERT' in tmp:
+        return True
+    elif 'UPDATE' in tmp:
+        return True
+    elif 'DELETE' in tmp:
+        return True
+    elif 'DROP' in tmp:
+        return True
+    elif 'CREATE' in tmp:
+        return True
+    else:
+        return False
+
+def checkForNumbers(broma):
+    try:
+        broma =  int(broma)
+        return True
+    except ValueError:
+        return False
+def InsertSauce(con,key):
+    newS_key = 0
+    S_name = "Something"
+    # D_type = "Something"
+    S_stock = 0
+    # Ingredients = []
+    cur = con.cursor()
+
+    result = cur.execute(getMaxSide_key, (key,))
+    data = result.fetchall()
+    
+    for r in data:
+        newS_key = r[0] +1
+    
+    # once that is done then ask user what they want to input
+    while True:
+        S_name = str(raw_input('Enter Sauce name : '))
+        if (check_for_Injections(S_name)) or (checkForNumbers(S_name)) or (len(S_name)>24):
+            print colored('PLEASE INSERT A valid Input', 'red') 
+        else:
+            break
+    
+    while True:
+        tmp = raw_input('Enter the current inventory stock: ')
+        try:
+            tmp = int(tmp)
+        except ValueError:
+            print 'Please enter a number'
+            continue
+        if tmp < 0:
+            print 'You cant have negative stock'
+        else :
+            S_stock = tmp
+            break
+    try:
+        # query = UpdateTable(selected_table, table_name_stock, newTotal, name, selected_item, store_column, key)
+        cur.execute(Insert_intoSauce,(S_name ,  newS_key , key ,S_stock , ))
+        con.commit();
+        time.sleep(2)
+        print colored(success,'red')
+        print colored(divider , 'red')
+        #  print("____________________________________________________________________________________________")
+
+        # print("Database updated successfuly!\n")
+    except sqlite3.Error, e:
+        print'Error: ', e.args[0]
+        con.close()
+        sys.exit(1)     # Unexpected Termination
+def  InsertSide(con,key):
+    newS_key = 0
+    S_name = "Something"
+    # D_type = "Something"
+    S_stock = 0
+    # Ingredients = []
+    cur = con.cursor()
+
+    result = cur.execute(getMaxSide_key, (key,))
+    data = result.fetchall()
+    
+    for r in data:
+        newS_key = r[0] +1
+    
+    # once that is done then ask user what they want to input
+    while True:
+        S_name = str(raw_input('Enter Side name : '))
+        if (check_for_Injections(S_name)) or (checkForNumbers(S_name)) or (len(S_name)>24):
+            print colored('PLEASE INSERT A valid Input', 'red') 
+        else:
+            break
+    
+    while True:
+        tmp = raw_input('Enter the current inventory stock: ')
+        try:
+            tmp = int(tmp)
+        except ValueError:
+            print 'Please enter a number'
+            continue
+        if tmp < 0:
+            print 'You cant have negative stock'
+        else :
+            S_stock = tmp
+            break
+    try:
+        # query = UpdateTable(selected_table, table_name_stock, newTotal, name, selected_item, store_column, key)
+        cur.execute(Insert_intoSides,(S_name ,  S_stock , key , newS_key ,))
+        con.commit();
+        time.sleep(2)
+        print colored(success,'red')
+        print colored(divider , 'red')
+        #  print("____________________________________________________________________________________________")
+
+        # print("Database updated successfuly!\n")
+    except sqlite3.Error, e:
+        print'Error: ', e.args[0]
+        con.close()
+        sys.exit(1)     # Unexpected Termination
+def InsertDrink(con,key):
+    newD_key = 0
+    D_brand = "Something"
+    D_type = "Something"
+    D_stock = 0
+    # Ingredients = []
+    cur = con.cursor()
+
+    result = cur.execute(getMaxSauce_key, (key,))
+    data = result.fetchall()
+    
+    for r in data:
+        newD_key = r[0] +1
+    
+    # once that is done then ask user what they want to input
+    while True:
+        D_brand = str(raw_input('Enter Drink name : '))
+        if (check_for_Injections(D_brand)) or (checkForNumbers(D_brand)) or (len(D_brand)>24):
+            print colored('PLEASE INSERT A valid Input', 'red') 
+        else:
+            break
+    while True:
+        D_type = str(raw_input('Enter Drink type : '))
+        if (check_for_Injections(D_type)) or (checkForNumbers(D_type)) or (len(D_type)>24):
+            print colored('PLEASE INSERT A valid Input', 'red') 
+        else:
+            break
+    while True:
+        tmp = raw_input('Enter the current inventory stock: ')
+        try:
+            tmp = int(tmp)
+        except ValueError:
+            print 'Please enter a number'
+            continue
+        if tmp < 0:
+            print 'You cant have negative stock'
+        else :
+            D_stock = tmp
+            break
+    try:
+        # query = UpdateTable(selected_table, table_name_stock, newTotal, name, selected_item, store_column, key)
+        cur.execute(Insert_intoDrink,(D_type , newD_key , D_stock , D_brand , key ,))
+        con.commit();
+        time.sleep(2)
+        print colored(success,'red')
+        print colored(divider , 'red')
+        #  print("____________________________________________________________________________________________")
+
+        # print("Database updated successfuly!\n")
+    except sqlite3.Error, e:
+        print'Error: ', e.args[0]
+        con.close()
+        sys.exit(1)     # Unexpected Termination
+
+
+def InsertEntree(con,key):
+    newE_key = 0
+    E_name = "Something"
+    E_stock = 0
+    Ingredients = []
+    cur = con.cursor()
+
+    result = cur.execute(getMaxEntree_key, (key,))
+    data = result.fetchall()
+    
+    for r in data:
+        newE_key = r[0] +1
+    
+    # once that is done then ask user what they want to input
+    while True:
+        E_name = str(raw_input('Enter Entree name <No need to add Pizza to name> : '))
+        if (check_for_Injections(E_name)) or (checkForNumbers(E_name)) or (len(E_name)>24):
+            print colored('PLEASE INSERT A valid Input', 'red') 
+        else:
+            break
+    
+    while True:
+        tmp = raw_input('Enter the current inventory stock: ')
+        try:
+            tmp = int(tmp)
+        except ValueError:
+            print 'Please enter a number'
+            continue
+        if tmp < 0:
+            print 'You cant have negative stock'
+        else :
+            E_stock = tmp
+            break
+    while True:
+        tString = str(raw_input('Enter the crust: '))
+        if (check_for_Injections(E_name)) or (checkForNumbers(E_name)) or (len(E_name)>20): 
+            print colored('PLEASE INSERT A valid Input', 'red') 
+        else:
+            tString = tString + ' - '
+            Ingredients.append(tString)
+            break
+    while True:
+        tString = str(raw_input('Enter the sauce: '))
+        if (check_for_Injections(E_name)) or (checkForNumbers(E_name)) or (len(E_name)>24):
+            print colored('PLEASE INSERT A valid Input', 'red') 
+        else:
+            tString = tString + ' - '
+            Ingredients.append(tString)
+            break
+    Ingredients_counter = 0        
+    print 'Max number of toppings per Pizza is 3'
+    while True:
+        # print Ingredients_counter
+        tString = str(raw_input('Enter a toping: '))
+        if (check_for_Injections(E_name)) or (checkForNumbers(E_name)) or (len(E_name)>24):
+            print colored('PLEASE INSERT A valid Input', 'red') 
+        elif Ingredients_counter >=2:
+            tString = tString + ' - '
+            Ingredients.append(tString)
+            break
+        else:
+            tString = tString + ' - '
+            Ingredients.append(tString)
+            # break
+        Ingredients_counter += 1
+    # now we need to make a new string 
+    E_toppings = " ".join(Ingredients)
+    # print E_toppings
+    try:
+        # query = UpdateTable(selected_table, table_name_stock, newTotal, name, selected_item, store_column, key)
+        cur.execute(Insert_intoEntree,(E_name,key,E_stock,newE_key,E_toppings,))
+        con.commit();
+        time.sleep(2)
+        print colored(success,'red')
+        print colored(divider , 'red')
+        #  print("____________________________________________________________________________________________")
+
+        # print("Database updated successfuly!\n")
+    except sqlite3.Error, e:
+        print'Error: ', e.args[0]
+        con.close()
+        sys.exit(1)     # Unexpected Termination
+
