@@ -4,10 +4,21 @@ SELECT Password
   WHERE Username = ?;
 '''
 
-RetrievePsw = '''
-SELECT Password
-  FROM Managers
-  WHERE Username = ?;
+
+
+RetrieveCustPsw = '''
+SELECT p_password
+  FROM Profiles
+  WHERE p_username = ?;
+'''
+
+RetreiveCustInfo = '''
+SELECT c_name, c_email, c_address, c_key, c_phone
+  FROM Customer,
+       Profiles
+ WHERE c_key = p_key AND
+       p_username = ? AND
+       p_password = ?;
 '''
 
 RetrieveManagerStore = '''
