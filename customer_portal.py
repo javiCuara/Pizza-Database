@@ -2,10 +2,10 @@
 import sqlite3
 import sys
 import os
-sys.path.insert(0,os.getcwd()+"/termcolor/termcolor.py") # dont delete this tory its needed!!!!!!
-
-# sys.path.append('.../')
+import fnmatch
+sys.path.insert(0,os.getcwd()+"/termcolor/termcolor.py")
 from termcolor import colored, cprint
+
 # Created
 from menus import*
 from query import*
@@ -100,7 +100,6 @@ def CustomerPortal(con):
     # cur.execute(UpdateOrders, ())
 
     return
-
 
 def StoreSelectMenu(con):
     cur = con.cursor()
