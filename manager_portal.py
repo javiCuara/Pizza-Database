@@ -130,6 +130,8 @@ def ManagerPortal(con, key):
             InsertSide(con,key)
         elif int(tmp) == 13:
             InsertSauce(con,key)
+        elif int(tmp) == 14:
+            InsertTopping(con,key)
 def getTotalInventory(con,key):
     Top = getToppings(con,key)
     Sides = getSides(con,key)
@@ -749,6 +751,55 @@ def checkForNumbers(broma):
         return True
     except ValueError:
         return False
+def InsertTopping(con,key):
+    newS_key = 0
+    S_name = "Something"
+    # D_type = "Something"
+    S_stock = 0
+    # Ingredients = []
+    cur = con.cursor()
+
+    result = cur.execute(getMaxToppint_key, (key,))
+    data = result.fetchall()
+    
+    for r in data:
+        newS_key = r[0] +1
+    
+    # once that is done then ask user what they want to input
+    while True:
+        S_name = str(raw_input('Enter Topping name : '))
+        if (check_for_Injections(S_name)) or (checkForNumbers(S_name)) or (len(S_name)>24):
+            print colored('PLEASE INSERT A valid Input', 'red') 
+        else:
+            break
+    
+    while True:
+        tmp = raw_input('Enter the current inventory stock: ')
+        try:
+            tmp = int(tmp)
+        except ValueError:
+            print 'Please enter a number'
+            continue
+        if tmp < 0:
+            print 'You cant have negative stock'
+        else :
+            S_stock = tmp
+            break
+    try:
+        # query = UpdateTable(selected_table, table_name_stock, newTotal, name, selected_item, store_column, key)
+        cur.execute(Insert_intoToppings,(S_name ,  newS_key , key ,S_stock , ))
+        con.commit();
+        time.sleep(2)
+        print colored(success,'red')
+        print colored(divider , 'red')
+        #  print("____________________________________________________________________________________________")
+
+        # print("Database updated successfuly!\n")
+    except sqlite3.Error, e:
+        print'Error: ', e.args[0]
+        con.close()
+        sys.exit(1)     # Unexpected Termination
+
 def InsertSauce(con,key):
     newS_key = 0
     S_name = "Something"
@@ -982,4 +1033,47 @@ def InsertEntree(con,key):
         print'Error: ', e.args[0]
         con.close()
         sys.exit(1)     # Unexpected Termination
+def deleteEntree(con,key):
+    cur = con.cursor()
+    storeList = []
+    selected_item =  []
+    print("--------------------------------------")
+    result = cur.execute("SELECT e_name,e_stock,e_key FROM entree WHERE e_storekey = ? GROUP BY e_name",(key,))
+    data = result.fetchall()
+    for row in data:
+        storeList.append((row[0],row[1],row[3]))
 
+    print("Which Entree would you like to Delete?")
+    i = 1
+    for entry in storeList:
+        print("{0}: {1}:{2}").format(i, entry[0], entry[1])
+        i += 1
+
+    while True:
+        tmp = raw_input("Enter value: ")
+        try:
+            tmp = int(tmp)
+            entrySuccess = True
+        except ValueError:
+            print("ENTER A NUMBER, PLEASE\n")
+            print("\n")
+            continue
+        if  int(tmp) not in range(1,i):
+            print("***Please enter a valid number***")
+
+        else :
+            index = int(tmp)-1
+            selected_item =  storeList
+            # selected_item = selected_item[0]
+            break
+    
+
+
+def deleteDrink(con,key):
+    print 'Comming soon'
+def deleteSide(con,key):
+    print 'Comming soon'
+def deleteSauce(con,key):
+    print 'Comming soon'
+def deleteTopping(con,key):
+    print 'Comming soon'

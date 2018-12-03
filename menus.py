@@ -26,6 +26,7 @@ ManagerMenu = '''
 11: Add a new drink to sell
 12: Add a new Side to sell
 13: Add a new Sauce 
+14: Add a new Topping
 '''
 Insert_menu = '''
 0: Return to previous menu

@@ -148,6 +148,75 @@ INSERT INTO toppings (
                       );
 
 '''
+Delete_FromToppings = '''
+DELETE FROM toppings
+      WHERE t_name = ? AND 
+            t_key = ? AND 
+            t_storekey = ? AND 
+            t_stock = ?;
+
+'''
+Delete_FromEntree = '''
+DELETE FROM entree
+      WHERE e_name = ? AND 
+            e_storekey = ? AND 
+            e_stock = ? AND 
+            e_key = ? AND 
+            e_ingredients = ?;
+
+'''
+Delete_FromSides = '''
+DELETE FROM sides
+      WHERE s_name = ? AND 
+            s_stock = ? AND 
+            s_storekey = ? AND 
+            s_key = ?;
+
+'''
+Delete_FromSauce = '''
+DELETE FROM sauce
+      WHERE sc_name = ? AND 
+            sc_key = ? AND 
+            sc_offeredBy = ? AND 
+            sc_stock = ?;
+
+'''
+Delete_FromDrinks = '''
+DELETE FROM drink
+      WHERE d_type = ? AND 
+            d_key = ? AND 
+            d_stock = ? AND 
+            d_brand = ? AND 
+            d_storekey = ?;
+
+'''
+getEntree_key = '''
+SELECT e_key
+  FROM entree
+  WHERE e_storekey = ?;
+
+'''
+getDrink_key = '''
+SELECT d_key
+  FROM drink
+  WHERE d_storekey = ?;
+'''
+getSide_key = '''
+SELECT s_key
+  FROM sides
+  WHERE s_storekey = ?;
+'''
+getSauce_key = '''
+SELECT sc_key
+  FROM sauce
+  WHERE sc_offeredBy = ?;
+'''
+getToppint_key = '''
+SELECT t_key
+  FROM toppings
+  WHERE t_storekey = ?
+'''
+
 getMaxEntree_key = '''
 SELECT max(e_key)
   FROM entree
@@ -168,6 +237,11 @@ getMaxSauce_key = '''
 SELECT max(sc_key)
   FROM sauce
   WHERE sc_offeredBy = ?;
+'''
+getMaxToppint_key = '''
+SELECT max(t_key)
+  FROM toppings
+  WHERE t_storekey = ?
 '''
 def UpdateTable(tableName, attrToUpdate, updateValue, attrItemName, itemName, attrKey, key):
     query = "UPDATE " + str(tableName) + " SET " + str(attrToUpdate) + " = " + str(updateValue) +  " WHERE " + str(attrItemName) + " = " + '"' + str(itemName) + '"' + " AND " + str(attrKey) + " = " + str(key) + ";"
