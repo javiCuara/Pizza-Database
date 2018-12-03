@@ -32,7 +32,7 @@ print colored(pizzaIcon, 'red')
 # print("________________________________________________________________________________________")
 
 while True:
-    
+
     print(MainMenu)
     cprint
     tmp = raw_input("Enter Value: ")
@@ -54,4 +54,8 @@ while True:
         sys.exit(0);    # Expected Termination
     elif int(tmp) == 1:
         print colored(divider , 'red')
-        CustomerPortal(con)
+        login = CheckCustomer(con)
+        if(login == -1):
+            continue
+        else:
+            CustomerPortal(login, con)

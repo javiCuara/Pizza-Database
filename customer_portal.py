@@ -2,6 +2,7 @@
 import sqlite3
 import sys
 import os
+import random
 import fnmatch
 sys.path.insert(0,os.getcwd()+"/termcolor/termcolor.py")
 from termcolor import colored, cprint
@@ -9,6 +10,73 @@ from termcolor import colored, cprint
 # Created
 from menus import*
 from query import*
+
+def CheckCustomer(con):
+    cur = con.cursor()
+    print(CustomerLoginMenu)
+    while(True):
+        choice = raw_input("Enter selection: ")
+
+        if(choice == 3):
+            return -1
+        elif(choice == 1):
+            #do the other thing
+            return choice
+        elif(choice == 2):
+            #do another different thing
+            return choice
+        else:
+            print("INVALID INPUT\n")
+
+    while True:
+        print colored(Login, 'red')
+        print colored(divider , 'red')
+        Username = raw_input("Enter UserID: ")
+        Pass = str(getpass.getpass())
+        print colored(divider , 'red')
+        # now that we have inputs check if they are valid
+        try:
+            cur =  con.cursor();
+            data = con.execute(RetrievePsw,(Username,))
+            x = data.fetchone();
+            if x != None:   # only check if a value is returned
+                for r in x :
+                    tmpWord = r
+        except sqlite3.Error, e:
+            print'Error: ', e.args[0]
+
+        #check credentials
+        if Pass == tmpWord:
+            try:
+                # get store key
+                cur = con.cursor();
+                data = con.execute(RetrieveManagerStore,(Username,))
+                x = data.fetchone();
+                for r in x:
+                    key = r
+                s_key = key
+
+                break
+            except sqlite3.Error, e:
+                print'Error: ', e.args[0]
+
+        # if credentials are not valid then ask....
+        else:
+            tmp = raw_input("1:Try again | 2: Return ~")
+            try:
+                tmp = int(tmp)
+            except ValueError:
+                print("ENTER A NUMBER, PLEASE\n")
+                continue
+            if int(tmp) == 1:
+                continue
+            elif int(tmp) == 2:
+                break
+            else:
+                break
+    # when loop ends then return boolean
+    return s_key
+
 
 def CustomerPortal(con):
     cur = con.cursor()
@@ -144,10 +212,55 @@ def CustomerPortal(con):
 
     # Secondly, we have to decrease the stock of what was chosen. We saved the choices
     # as variables which we can use to query and modify the stock count
+    try:
+        count = -1
 
-    # DO THE THING WITH STOCK DECREMENT
+        # Entree Decrement
+        result = cur.execute("SELECT e_stock FROM entree WHERE e_storekey = ? AND e_key = ?", (storeKey, entreeKey,))
+        data = result.fetchone()
+        for r in data:
+            count = r
+        count -= 1
+        cur.execute("UPDATE entree SET e_stock = ? WHERE e_storekey = ? AND e_key = ?", (count, storeKey, entreeKey))
+        con.commit()
+
+        # Sides Decrement
+        result = cur.execute("SELECT s_stock FROM sides WHERE s_storekey = ? AND s_key = ?", (storeKey, sideKey,))
+        data = result.fetchone()
+        for r in data:
+            count = r
+        count -= 1
+        cur.execute("UPDATE sides SET s_stock = ? WHERE s_storekey = ? AND s_key = ?", (count, storeKey,  sideKey))
+        con.commit()
+
+        # Drink Decrement
+        result = cur.execute("SELECT d_stock FROM drink WHERE d_storekey = ? AND d_key = ?", (storeKey, drinkKey,))
+        data = result.fetchone()
+        for r in data:
+            count = r
+        count -= 1
+        cur.execute("UPDATE drink SET d_stock = ? WHERE d_storekey = ? AND d_key = ?", (count, storeKey, drinkKey))
+        con.commit()
+    except sqlite3.Error, e:
+        print("Error: ", e.args[0])
+        con.close()
+        sys.exit(1)
 
     # Lastly, we have to add the customer to the delivery table, should we actually
+    if(delivery == 1):
+        # Add another entry to the delivery table
+        drivers = []
+        result = cur.execute(myDrivers, (storeKey,))
+        data = result.fetchall()
+        for r in data:
+            drivers.append(r[0])
+        rnjesusBlessedThisDriver = random.choice(drivers)
+        print(rnjesusBlessedThisDriver + " will be your deilvery driver\n")
+        print("Thank you and have a nice day!")
+
+        #Driver_name, order_id
+        cur.execute("INSERT INTO Delivery VALUES (?, ?)", (rnjesusBlessedThisDriver, orderKey,))
+        con.commit()
 
     return
 

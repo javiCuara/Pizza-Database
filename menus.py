@@ -1,15 +1,15 @@
 # Menu list
 MainMenu = '''
-1: Continue as Guest
+1: Continue as Customer
 2: Continue as Store Manager
 3: Exit
  '''
 
-GuestMenu = ''' Select one of the following
-    0: Return to main menu
-    1: Count how many stores that sell Wings Deliver as well
-    2: For each store that carries beer, count how many delivery orders have been made
-    '''
+CustomerLoginMenu = '''
+1: Log in as returning customer
+2: Continue as guest
+3: Return to Main Menu
+'''
 
 ManagerMenu = '''
 0: Return to main menu
@@ -19,13 +19,13 @@ ManagerMenu = '''
 4: View best selling items
 5: View best selling Order combination
 6: View Customer List
-7: Best Customer 
+7: Best Customer
 8: List Drivers
 9: View order for 'x' customer
 10: Add a new entree to sell
 11: Add a new drink to sell
 12: Add a new Side to sell
-13: Add a new Sauce 
+13: Add a new Sauce
 14: Add a new Topping
 15: Delete an Entree
 16: Delete a Drink
