@@ -151,42 +151,30 @@ INSERT INTO toppings (
 Delete_FromToppings = '''
 DELETE FROM toppings
       WHERE t_name = ? AND 
-            t_key = ? AND 
-            t_storekey = ? AND 
-            t_stock = ?;
+            t_storekey = ? ;
 
 '''
 Delete_FromEntree = '''
 DELETE FROM entree
       WHERE e_name = ? AND 
-            e_storekey = ? AND 
-            e_stock = ? AND 
-            e_key = ? AND 
-            e_ingredients = ?;
+            e_storekey = ?;
 
 '''
 Delete_FromSides = '''
 DELETE FROM sides
-      WHERE s_name = ? AND 
-            s_stock = ? AND 
-            s_storekey = ? AND 
-            s_key = ?;
+      WHERE s_name = ? AND  
+            s_storekey = ? ;
 
 '''
 Delete_FromSauce = '''
 DELETE FROM sauce
       WHERE sc_name = ? AND 
-            sc_key = ? AND 
-            sc_offeredBy = ? AND 
-            sc_stock = ?;
+            sc_offeredBy = ? AND ;
 
 '''
 Delete_FromDrinks = '''
 DELETE FROM drink
-      WHERE d_type = ? AND 
-            d_key = ? AND 
-            d_stock = ? AND 
-            d_brand = ? AND 
+      WHERE d_brand = ? AND 
             d_storekey = ?;
 
 '''

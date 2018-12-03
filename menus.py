@@ -27,6 +27,11 @@ ManagerMenu = '''
 12: Add a new Side to sell
 13: Add a new Sauce 
 14: Add a new Topping
+15: Delete an Entree
+16: Delete a Drink
+17: Delete a Side
+18: Delete a Topping
+19: Delete a Sauce
 '''
 Insert_menu = '''
 0: Return to previous menu

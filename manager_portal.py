@@ -119,19 +119,47 @@ def ManagerPortal(con, key):
 
         elif int(tmp)  == 8:
             List_myDrivers(con,key)
+        
         elif int(tmp) == 9:
-            # print 'coming soon'
             reviewCustomerXXXOrder(con,key)
+        
         elif int(tmp) == 10:
             InsertEntree(con,key)
+
         elif int(tmp) == 11:
             InsertDrink(con,key)
+        
         elif int(tmp) == 12:
             InsertSide(con,key)
+        
         elif int(tmp) == 13:
             InsertSauce(con,key)
+        
         elif int(tmp) == 14:
             InsertTopping(con,key)
+        
+        elif int(tmp) == 15:
+            deleteEntree(con,key)
+        
+        elif int(tmp) == 16:
+            deleteDrink(con,key)
+        
+        elif int(tmp) == 17:
+            deleteSide(con,key)
+        
+        elif int(tmp) == 18:
+            deleteTopping(con,key)
+        
+        elif int(tmp) == 19:
+            deleteSauce(con,key)
+
+
+
+
+
+
+
+
 def getTotalInventory(con,key):
     Top = getToppings(con,key)
     Sides = getSides(con,key)
@@ -1041,12 +1069,12 @@ def deleteEntree(con,key):
     result = cur.execute("SELECT e_name,e_stock,e_key FROM entree WHERE e_storekey = ? GROUP BY e_name",(key,))
     data = result.fetchall()
     for row in data:
-        storeList.append((row[0],row[1],row[3]))
+        storeList.append((row[0],row[1],row[2]))
 
     print("Which Entree would you like to Delete?")
     i = 1
     for entry in storeList:
-        print("{0}: {1}:{2}").format(i, entry[0], entry[1])
+        print("{0}: {1}").format(i, entry[0])
         i += 1
 
     while True:
@@ -1063,17 +1091,214 @@ def deleteEntree(con,key):
 
         else :
             index = int(tmp)-1
-            selected_item =  storeList
+            selected_item =  storeList[index]
             # selected_item = selected_item[0]
             break
-    
+    try:
+        # query = UpdateTable(selected_table, table_name_stock, newTotal, name, selected_item, store_column, key)
+        cur.execute(Delete_FromEntree,(selected_item[0],key,))
+        con.commit();
+        time.sleep(2)
+        print colored(success,'red')
+        print colored(divider , 'red')
+        #  print("____________________________________________________________________________________________")
+
+        # print("Database updated successfuly!\n")
+    except sqlite3.Error, e:
+        print'Error: ', e.args[0]
+        con.close()
+        sys.exit(1)     # Unexpected Termination
+    # print selected_item
+    # print selected_item[0]
+    # print selected_item[0][0]
 
 
 def deleteDrink(con,key):
-    print 'Comming soon'
+    cur = con.cursor()
+    storeList = []
+    selected_item =  []
+    print("--------------------------------------")
+    result = cur.execute("SELECT d_brand ,d_stock,d_key FROM drink WHERE d_storekey = ? GROUP BY d_brand",(key,))
+    data = result.fetchall()
+    for row in data:
+        storeList.append((row[0],row[1],row[2]))
+
+    print("Which drink would you like to Delete?")
+    i = 1
+    for entry in storeList:
+        print("{0}: {1}").format(i, entry[0])
+        i += 1
+
+    while True:
+        tmp = raw_input("Enter value: ")
+        try:
+            tmp = int(tmp)
+            entrySuccess = True
+        except ValueError:
+            print("ENTER A NUMBER, PLEASE\n")
+            print("\n")
+            continue
+        if  int(tmp) not in range(1,i):
+            print("***Please enter a valid number***")
+
+        else :
+            index = int(tmp)-1
+            selected_item =  storeList[index]
+            # selected_item = selected_item[0]
+            break
+    try:
+        # query = UpdateTable(selected_table, table_name_stock, newTotal, name, selected_item, store_column, key)
+        cur.execute(Delete_FromEntree,(selected_item[0],key,))
+        con.commit();
+        time.sleep(2)
+        print colored(success,'red')
+        print colored(divider , 'red')
+        #  print("____________________________________________________________________________________________")
+
+        # print("Database updated successfuly!\n")
+    except sqlite3.Error, e:
+        print'Error: ', e.args[0]
+        con.close()
+        sys.exit(1)
+    # print 'Comming soon'
 def deleteSide(con,key):
-    print 'Comming soon'
+    cur = con.cursor()
+    storeList = []
+    selected_item =  []
+    print("--------------------------------------")
+    result = cur.execute("SELECT s_name ,s_stock,s_key FROM sides WHERE s_storekey = ? GROUP BY s_name",(key,))
+    data = result.fetchall()
+    for row in data:
+        storeList.append((row[0],row[1],row[2]))
+
+    print("Which side would you like to Delete?")
+    i = 1
+    for entry in storeList:
+        print("{0}: {1}").format(i, entry[0])
+        i += 1
+
+    while True:
+        tmp = raw_input("Enter value: ")
+        try:
+            tmp = int(tmp)
+            entrySuccess = True
+        except ValueError:
+            print("ENTER A NUMBER, PLEASE\n")
+            print("\n")
+            continue
+        if  int(tmp) not in range(1,i):
+            print("***Please enter a valid number***")
+
+        else :
+            index = int(tmp)-1
+            selected_item =  storeList[index]
+            # selected_item = selected_item[0]
+            break
+    try:
+        # query = UpdateTable(selected_table, table_name_stock, newTotal, name, selected_item, store_column, key)
+        cur.execute(Delete_FromSides,(selected_item[0],key,))
+        con.commit();
+        time.sleep(2)
+        print colored(success,'red')
+        print colored(divider , 'red')
+        #  print("____________________________________________________________________________________________")
+
+        # print("Database updated successfuly!\n")
+    except sqlite3.Error, e:
+        print'Error: ', e.args[0]
+        con.close()
+        sys.exit(1)
 def deleteSauce(con,key):
-    print 'Comming soon'
+    cur = con.cursor()
+    storeList = []
+    selected_item =  []
+    print("--------------------------------------")
+    result = cur.execute("SELECT sc_name ,sc_stock,sc_key FROM sauce WHERE sc_offeredBy = ? GROUP BY sc_name",(key,))
+    data = result.fetchall()
+    for row in data:
+        storeList.append((row[0],row[1],row[2]))
+
+    print("Which sauce would you like to Delete?")
+    i = 1
+    for entry in storeList:
+        print("{0}: {1}").format(i, entry[0])
+        i += 1
+
+    while True:
+        tmp = raw_input("Enter value: ")
+        try:
+            tmp = int(tmp)
+            entrySuccess = True
+        except ValueError:
+            print("ENTER A NUMBER, PLEASE\n")
+            print("\n")
+            continue
+        if  int(tmp) not in range(1,i):
+            print("***Please enter a valid number***")
+
+        else :
+            index = int(tmp)-1
+            selected_item =  storeList[index]
+            # selected_item = selected_item[0]
+            break
+    try:
+        # query = UpdateTable(selected_table, table_name_stock, newTotal, name, selected_item, store_column, key)
+        cur.execute(Delete_FromSides,(selected_item[0],key,))
+        con.commit();
+        time.sleep(2)
+        print colored(success,'red')
+        print colored(divider , 'red')
+        #  print("____________________________________________________________________________________________")
+
+        # print("Database updated successfuly!\n")
+    except sqlite3.Error, e:
+        print'Error: ', e.args[0]
+        con.close()
+        sys.exit(1)
 def deleteTopping(con,key):
-    print 'Comming soon'
+    cur = con.cursor()
+    storeList = []
+    selected_item =  []
+    print("--------------------------------------")
+    result = cur.execute("SELECT t_name ,t_stock,t_key FROM toppings WHERE t_storekey = ? GROUP BY t_name",(key,))
+    data = result.fetchall()
+    for row in data:
+        storeList.append((row[0],row[1],row[2]))
+
+    print("Which topping would you like to Delete?")
+    i = 1
+    for entry in storeList:
+        print("{0}: {1}").format(i, entry[0])
+        i += 1
+
+    while True:
+        tmp = raw_input("Enter value: ")
+        try:
+            tmp = int(tmp)
+            entrySuccess = True
+        except ValueError:
+            print("ENTER A NUMBER, PLEASE\n")
+            print("\n")
+            continue
+        if  int(tmp) not in range(1,i):
+            print("***Please enter a valid number***")
+
+        else :
+            index = int(tmp)-1
+            selected_item =  storeList[index]
+            # selected_item = selected_item[0]
+            break
+    try:
+        # query = UpdateTable(selected_table, table_name_stock, newTotal, name, selected_item, store_column, key)
+        cur.execute(Delete_FromToppings,(selected_item[0],key,))
+        con.commit();
+        time.sleep(2)
+        print colored(success,'red')
+        print colored(divider , 'red')
+        #  print("____________________________________________________________________________________________")
+
+        # print("Database updated successfuly!\n")
+    except sqlite3.Error, e:
+        print'Error: ', e.args[0]
+        con.close()
+        sys.exit(1)
