@@ -11,6 +11,27 @@ from menus import*
 from query import*
 
 def CustomerPortal(con):
+    cur = con.cursor()
+    custKey = -1
+    custAddress = ''
+    custEmail = ''
+    custName = ''
+    guestPhone = '0000000000'
+
+    print('''Will this order be for delivery?
+1: Yes
+2: No
+    ''')
+    delivery = raw_input("Please Make Your Selection: ")
+    if(delivery == '1'):
+        delivery = "YES"
+        custAddress = raw_input("Please enter your address:  ")
+        print('')
+    else:
+        delivery = "NO"
+        custAddress = 'NOT PROVIDED BY GUEST -- NO DELIV'
+        print('')
+
     storeChoice = StoreSelectMenu(con)   # Return the NAME of the store chosen
     if(storeChoice == "MAIN_MENU_RETURN"):
         return
@@ -32,8 +53,38 @@ def CustomerPortal(con):
     {0}
     {1}
     {2}
-    from {3}
-    ''').format(entreeChoice, sideChoice, drinkChoice, storeChoice)
+    FROM {3}
+    FOR DELIVERY: {4}
+    ''').format(entreeChoice, sideChoice, drinkChoice, storeChoice, delivery)
+
+    custName = raw_input("\nYour name for the order?   ")
+    custName = "".join((custName,' (GUEST)'))
+    while(True):
+        custEmail = raw_input("Your email? We'll let you know when the order is ready!   ")
+        filt = fnmatch.filter(custEmail, '*@*')
+        if(len(filt) < 1):
+            print("Enter a valid Email please!\n")
+            continue
+        else:
+            break
+
+
+    #Now we add them to the Customer table in the database
+    try:
+        results = cur.execute("SELECT MAX(c_key) FROM Customer;")
+        data = results.fetchone()
+        for r in data:
+            custKey = r
+        custKey += 1
+    except sqlite3.Error, e:
+        print("Error: ", e.args[0])
+        # Should not reach this
+
+    #c_name, c_email, c_address, c_key, c_phone
+    InsertNewCustomer = "INSERT INTO Customer VALUES (:name, :email, :addr, :key, :phone);"
+    cur.execute(InsertNewCustomer, {"name": custName, "email": custEmail, "addr": custAddress, "key": custKey, "phone": guestPhone})
+    con.commit()
+
 
     # Now that we've completed the order, we have to do some database management
     # in the background to reflect the order.
@@ -44,7 +95,12 @@ def CustomerPortal(con):
 
     # The first part, we now have to create a new entry in the orders table
 
+    #'o_custkey', 'o_orderkey', 'o_side', 'o_entree', 'o_drink', 'o_store', 'o_dev'
+    # UpdateOrders = '''INSERT INTO Orders VALUES (?, ?, ?, ?, ?, ?, ?);'''
+    # cur.execute(UpdateOrders, ())
+
     return
+
 
 def StoreSelectMenu(con):
     cur = con.cursor()
@@ -242,10 +298,9 @@ def CustomerDrinkOrder(store, con):
 
 #     result = cur.execute(getMaxEntree_key, (key,))
 #     data = result.fetchall()
-    
+
 #     for r in data:
 #         newE_key = r[0] +1
-    
+
 #     # once that is done then ask user what they want to input
 #     while True:
-        
