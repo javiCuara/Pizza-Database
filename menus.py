@@ -22,16 +22,8 @@ ManagerMenu = '''
 7: Best Customer
 8: List Drivers
 9: View order for 'x' customer
-10: Add a new entree to sell
-11: Add a new drink to sell
-12: Add a new Side to sell
-13: Add a new Sauce
-14: Add a new Topping
-15: Delete an Entree
-16: Delete a Drink
-17: Delete a Side
-18: Delete a Topping
-19: Delete a Sauce
+10: Insert a new item
+11: Delete a item
 '''
 Insert_menu = '''
 0: Return to previous menu

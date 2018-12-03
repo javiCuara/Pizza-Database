@@ -124,40 +124,74 @@ def ManagerPortal(con, key):
             reviewCustomerXXXOrder(con,key)
         
         elif int(tmp) == 10:
-            InsertEntree(con,key)
-
+            print colored(divider,'red')
+            goToInsertPortal(con,key)
         elif int(tmp) == 11:
+            print colored(divider,'red')
+            goToDeletePortal(con,key)
+
+
+def goToInsertPortal(con,key):
+    print Insert_menu
+    while True:
+        tmp = raw_input("Enter value: ")
+        try:
+            tmp = int(tmp)
+            entrySuccess = True
+        except ValueError:
+            print("ENTER A NUMBER, PLEASE\n")
+            print("\n")
+            continue
+        if  int(tmp) == 0 :
+            break
+        elif int(tmp) == 1:
+            InsertEntree(con,key)
+            break
+
+        elif int(tmp) == 2:
             InsertDrink(con,key)
-        
-        elif int(tmp) == 12:
+            break
+
+        elif int(tmp) == 3:
             InsertSide(con,key)
-        
-        elif int(tmp) == 13:
+            break
+
+        elif int(tmp) == 4:
             InsertSauce(con,key)
-        
-        elif int(tmp) == 14:
+            break
+
+        elif int(tmp) == 5:
             InsertTopping(con,key)
-        
-        elif int(tmp) == 15:
+            break
+
+def goToDeletePortal(con,key):
+    print Delete_menu
+    while True:
+        tmp = raw_input("Enter value: ")
+        try:
+            tmp = int(tmp)
+            entrySuccess = True
+        except ValueError:
+            print("ENTER A NUMBER, PLEASE\n")
+            print("\n")
+            continue
+        if  int(tmp) == 0 :
+            break
+        elif int(tmp) == 1:
             deleteEntree(con,key)
-        
-        elif int(tmp) == 16:
+            break
+        elif int(tmp) == 2:
             deleteDrink(con,key)
-        
-        elif int(tmp) == 17:
+            break
+        elif int(tmp) == 3:
             deleteSide(con,key)
-        
-        elif int(tmp) == 18:
+            break
+        elif int(tmp) == 5:
             deleteTopping(con,key)
-        
-        elif int(tmp) == 19:
+            break
+        elif int(tmp) == 4:
             deleteSauce(con,key)
-
-
-
-
-
-
+            break
 
 
 def getTotalInventory(con,key):
@@ -693,7 +727,7 @@ def printGreeting(key):
         print colored(LittleOven,'red')
 
 def printOrder(con, key, c_name,s_name):
-    print 'coming soon'
+    # print 'coming soon'
     cur = con.cursor()
     result = cur.execute(receiptForXYZ, (c_name,s_name,))
     data = result.fetchall()
