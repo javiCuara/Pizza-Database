@@ -7,5 +7,6 @@ sudo python setup.py install
 ```
 ## Run application
 ```bash
+cd ~/Pizza-Database
 python application.py
 ```
