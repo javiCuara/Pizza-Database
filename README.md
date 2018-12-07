@@ -1,5 +1,11 @@
 # Pizza-Database
-## Switch WS to .../Pizza-Database/termcolor
-## run: sudo python setup.py install
-## run: python termcolor.py
-## To run application: python applicatoin.py
+
+## Setup 
+```bash
+cd ~/Pizza-Database/termcolor
+sudo python setup.py install
+```
+## Run application
+```bash
+python application.py
+```
